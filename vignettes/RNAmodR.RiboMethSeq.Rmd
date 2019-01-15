@@ -1,0 +1,51 @@
+---
+title: 'RNAmodR: RiboMethSeq'
+author: "Felix G.M. Ernst"
+date: "`r Sys.Date()`"
+abstract: >
+  Example of RiboMethSeq analysis
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+vignette: >
+  %\VignetteIndexEntry{RNAmodR - RiboMethSet}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Analysis options
+
+maxLength: 50L
+weights: 0.8,1,0,1,0.8
+
+```{r}
+
+genome2 <- "GRCh38_rRNA_tRNA.fasta"
+annotation2 <- "GRCh38_rRNA_tRNA.gff"
+files2 <-  BamFileList(c(treated = "KS01.bam"))
+
+```
+
+```{r}
+
+genome2 <- "GRCh38_rRNA_tRNA.fasta"
+annotation2 <- "GRCh38_rRNA_tRNA.gff"
+files3 <- list("HCT116" = c(treated = "KS01.bam"),
+               "HCT116 snR46del 1" = c(treated = "KS02.bam"),
+               "HCT116 snR46del 2" = c(treated = "KS03.bam"),
+               "HCT116 snR46del 3" = c(treated = "KS04.bam"),
+               "HCT116 snR46del 5" = c(treated = "KS05.bam"))
+
+
+
+
+visualizeDataByCoord(msrms[[2]],singleCoord,additional.mod = coord[[3]], modified.seq = TRUE)
+
+```

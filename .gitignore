@@ -1,7 +1,8 @@
-inst/doc
 .Rproj.user
-*.bam
-*.bai
-*.gff
-*.fasta
-*.fai
+.Rhistory
+.RData
+inst/doc
+GenomicRanges
+IRanges
+S4Vectors
+XVector

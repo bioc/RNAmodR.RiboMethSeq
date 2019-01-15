@@ -19,9 +19,11 @@ Imports:
 Suggests:
     BiocStyle,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Collate: 
-    'RiboMethSeq.R'
-    'Modifier-RiboMethSeq.R'
+    'RNAmodR.RiboMethSeq.R'
+    'Modifier-RiboMethSeq-class.R'
+    'Modifier-RiboMethSeq-viz.R'
