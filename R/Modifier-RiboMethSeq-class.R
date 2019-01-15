@@ -43,7 +43,6 @@ NULL
 #' }
 #' 
 #' 
-
 NULL
 
 #' @rdname ModRiboMethSeq
@@ -52,7 +51,7 @@ setClass("ModRiboMethSeq",
          contains = c("Modifier"),
          prototype = list(mod = c("Am","Cm","Gm","Um"),
                           score = "scoreRMS",
-                          dataClass = "NormalizedProtectedEndSequenceData"))
+                          dataClass = "ProtectedEndSequenceData"))
 
 
 setMethod(
@@ -637,4 +636,3 @@ setClass("ModSetRiboMethSeq",
 ModSetRiboMethSeq <- function(x, fasta = NA, gff = NA){
   ModifierSet("ModRiboMethSeq", x, fasta = fasta, gff = gff)
 }
-
