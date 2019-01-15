@@ -81,7 +81,6 @@ setMethod(
                         seqdata,
                         sequence,
                         args) {
-    requireNamespace("Gviz")
     n <- ncol(mcols(data))
     colour <- args[["colour"]]
     if(is.na(colour) || length(colour) != n){
@@ -92,17 +91,17 @@ setMethod(
                     column <- colnames(mcols(data)[i])
                     colour <- colour[column]
                     name <- RNAMODR_RMS_PLOT_DATA_NAMES[column]
-                    dt <- DataTrack(data,
-                              data = column,
-                              name = name,
-                              fill = colour,
-                              type = "histogram")
+                    dt <- Gviz::DataTrack(data,
+                                          data = column,
+                                          name = name,
+                                          fill = colour,
+                                          type = "histogram")
                     if(column %in% c("scoreA","scoreRMS")){
-                      displayPars(dt)$ylim = c(0,1)
+                      Gviz::displayPars(dt)$ylim = c(0,1)
                     }
-                    displayPars(dt)$background.title <- "#FFFFFF"
-                    displayPars(dt)$fontcolor.title <- "#000000"
-                    displayPars(dt)$col.axis <- "#000000"
+                    Gviz::displayPars(dt)$background.title <- "#FFFFFF"
+                    Gviz::displayPars(dt)$fontcolor.title <- "#000000"
+                    Gviz::displayPars(dt)$col.axis <- "#000000"
                     dt
                   })
     names(dts) <- colnames(mcols(data))

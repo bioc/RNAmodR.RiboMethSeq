@@ -36,10 +36,11 @@ NULL
 #' \item{maxLength:}{The default read length. Reads with this length or longer
 #' are discarded, since they represent non-fragemented reads. This might need to
 #' be adjusted for individual samples dending on the experimental conditions.
-#' This is argument is passed on to \code{\link{ProtectedEndSequenceData}} 
+#' This is argument is passed on to 
+#' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
 #' (default: \code{maxLength = 50L})}
 #' \item{other arguments}{which are passed on to 
-#' \code{\link{ProtectedEndSequenceData}}}
+#' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}}
 #' }
 #' 
 #' 
@@ -52,7 +53,6 @@ setClass("ModRiboMethSeq",
          prototype = list(mod = c("Am","Cm","Gm","Um"),
                           score = "scoreRMS",
                           dataClass = "ProtectedEndSequenceData"))
-
 
 setMethod(
   f = "initialize", 
@@ -143,7 +143,7 @@ setMethod(
            call. = FALSE)
     }
   }
-  args <- .norm_args(input)
+  args <- RNAmodR:::.norm_args(input)
   args <- c(args,
             list(maxLength = maxLength,
                  weights = weights,
@@ -167,7 +167,8 @@ setReplaceMethod(f = "settings",
                    x
                  })
 
-
+#' @rdname ModRiboMethSeq
+#' @export
 setGeneric( 
   name = "ModRiboMethSeq",
   def = function(x,
@@ -183,10 +184,11 @@ setMethod("ModRiboMethSeq",
                    gff,
                    modifications = NULL,
                    ...){
-            ans <- RNAmodR:::.ModFromCharacter("ModRiboMethSeq",
-                                               x,
-                                               fasta,
-                                               gff,
+            ans <- new("ModRiboMethSeq",
+                       x,
+                       fasta,
+                       gff)
+            ans <- RNAmodR:::.ModFromCharacter(ans,
                                                list(...))
             ans <- RNAmodR:::.norm_modifications(ans,
                                                  list(...))
@@ -204,10 +206,11 @@ setMethod("ModRiboMethSeq",
                    gff,
                    modifications = NULL,
                    ...){
-            ans <- RNAmodR:::.ModFromCharacter("ModRiboMethSeq",
-                                               x,
-                                               fasta,
-                                               gff,
+            ans <- new("ModRiboMethSeq",
+                       x,
+                       fasta,
+                       gff)
+            ans <- RNAmodR:::.ModFromCharacter(ans,
                                                list(...))
             ans <- RNAmodR:::.norm_modifications(ans,
                                                  list(...))
@@ -223,7 +226,11 @@ setMethod("ModRiboMethSeq",
           function(x,
                    modifications = NULL,
                    ...){
-            ans <- RNAmodR:::.ModFromSequenceData("ModRiboMethSeq",
+            ans <- new("ModRiboMethSeq",
+                       bamfiles(x),
+                       fasta(x),
+                       gff(x))
+            ans <- RNAmodR:::.ModFromSequenceData(ans,
                                                   x,
                                                   list(...))
             ans <- RNAmodR:::.norm_modifications(ans,
@@ -307,14 +314,14 @@ setMethod("ModRiboMethSeq",
                          countsL,
                          countsR){
   n <- seq_along(data)
-  countsMeanL <- NumericList(
+  countsMeanL <- IRanges::NumericList(
     lapply(n,
            function(j){
              unlist(lapply(countsL[[j]],
                            mean,
                            na.rm = TRUE))
            }))
-  countsSdL <- NumericList(
+  countsSdL <- IRanges::NumericList(
     lapply(n,
            function(j){
              unlist(lapply(countsL[[j]],
@@ -322,14 +329,14 @@ setMethod("ModRiboMethSeq",
                            na.rm = TRUE))
            }))
   countsSdL[is.na(countsSdL)] <- 0
-  countsMeanR <- NumericList(
+  countsMeanR <- IRanges::NumericList(
     lapply(n,
            function(j){
              unlist(lapply(countsR[[j]],
                            mean,
                            na.rm = TRUE))
            }))
-  countsSdR <- NumericList(
+  countsSdR <- IRanges::NumericList(
     lapply(n,
            function(j){
              unlist(lapply(countsR[[j]],
@@ -338,7 +345,7 @@ setMethod("ModRiboMethSeq",
            }))
   countsSdR[is.na(countsSdR)] <- 0
   # calc score per replicate
-  scoreA <- NumericList(mapply(FUN = .calculate_ribometh_score_A,
+  scoreA <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_A,
                                data,
                                countsMeanL,
                                countsSdL,
@@ -353,7 +360,7 @@ setMethod("ModRiboMethSeq",
                          weightsL,
                          countsR,
                          weightsR){
-  scoreB <- NumericList(mapply(FUN = .calculate_ribometh_score_B,
+  scoreB <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_B,
                                data,
                                countsL,
                                weightsL,
@@ -368,7 +375,7 @@ setMethod("ModRiboMethSeq",
                             weightsL,
                             countsR,
                             weightsR){
-  scoreMeth <- NumericList(mapply(FUN = .calculate_ribometh_score_meth,
+  scoreMeth <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_meth,
                                   data,
                                   countsL,
                                   weightsL,
@@ -384,7 +391,7 @@ setMethod("ModRiboMethSeq",
 #                            countsR,
 #                            weightsR){
 #   browser()
-#   scoreMAX <- NumericList(mapply(FUN = .calculate_ribometh_score_max,
+#   scoreMAX <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_max,
 #                                  data,
 #                                  countsL,
 #                                  weightsL,
@@ -423,13 +430,13 @@ setMethod("ModRiboMethSeq",
   # get the means. the sds arecurrently disregarded for this analysis
   mod <- aggregate(seqData(x),
                    condition = "Treated")
-  means <- IntegerList(mod@unlistData[,which(grepl("mean",
-                                                   colnames(mod@unlistData)))])
+  means <- IRanges::IntegerList(mod@unlistData[,which(grepl("mean",
+                                                            colnames(mod@unlistData)))])
   means@partitioning <- mod@partitioning
   # set up variables
   n <- length(mod)
   nV <- seq_len(n)
-  lengths <- lengths(mod)
+  lengths <- S4Vectors::lengths(mod)
   pos <- lapply(lengths,seq_len)
   flankingRegion <- settings(x,"flankingRegion")
   positionsR <- seq_len(flankingRegion)
@@ -441,53 +448,53 @@ setMethod("ModRiboMethSeq",
   neighborCountsLFR <- 
     lapply(nV,
            function(j){
-             IntegerList(lapply(pos[[j]],
-                                function(k){
-                                  f <- positionsL + k
-                                  ans <- means[[j]][f[f > 0]]
-                                  ans <- ans[!is.na(ans)]
-                                  ans
-                                }))
+             IRanges::IntegerList(lapply(pos[[j]],
+                                         function(k){
+                                           f <- positionsL + k
+                                           ans <- means[[j]][f[f > 0]]
+                                           ans <- ans[!is.na(ans)]
+                                           ans
+                                         }))
            })
   neighborCountsRFR <- 
     lapply(nV,
            function(j){
-             IntegerList(lapply(pos[[j]],
-                                function(k){
-                                  f <- positionsR + k
-                                  ans <- means[[j]][f[f > 0]]
-                                  ans <- ans[!is.na(ans)]
-                                  ans
-                                }))
+             IRanges::IntegerList(lapply(pos[[j]],
+                                         function(k){
+                                           f <- positionsR + k
+                                           ans <- means[[j]][f[f > 0]]
+                                           ans <- ans[!is.na(ans)]
+                                           ans
+                                         }))
            })
   # subset to neightbouring positions based on the size of the weights
   neighborCountsL <- 
     lapply(nV,
            function(j){
-             IntegerList(lapply(pos[[j]],
-                                function(k){
-                                  f <- weightPositionsL + k
-                                  ans <- means[[j]][f[f > 0]]
-                                  ans <- ans[!is.na(ans)]
-                                  ans
-                                }))
+             IRanges::IntegerList(lapply(pos[[j]],
+                                         function(k){
+                                           f <- weightPositionsL + k
+                                           ans <- means[[j]][f[f > 0]]
+                                           ans <- ans[!is.na(ans)]
+                                           ans
+                                         }))
            })
   neighborCountsR <- 
     lapply(nV,
            function(j){
-             IntegerList(lapply(pos[[j]],
-                                function(k){
-                                  f <- weightPositionsR + k
-                                  ans <- means[[j]][f[f > 0]]
-                                  ans <- ans[!is.na(ans)]
-                                  ans
-                                }))
+             IRanges::IntegerList(lapply(pos[[j]],
+                                         function(k){
+                                           f <- weightPositionsR + k
+                                           ans <- means[[j]][f[f > 0]]
+                                           ans <- ans[!is.na(ans)]
+                                           ans
+                                         }))
            })
   # create list of weights vector alongside the neighbor counts
   weightsListL <- 
     lapply(nV,
            function(j){
-             NumericList(mapply(
+             IRanges::NumericList(mapply(
                function(k,l){
                  f <- weightPositionsL + k
                  ans <- weights[which(f > 0 & f <= l)]
@@ -499,7 +506,7 @@ setMethod("ModRiboMethSeq",
   weightsListR <- 
     lapply(nV,
            function(j){
-             NumericList(mapply(
+             IRanges::NumericList(mapply(
                function(k,l,of){
                  f <- weightPositionsR + k
                  f <- which(f > 0 & f <= l) + of
@@ -525,12 +532,12 @@ setMethod("ModRiboMethSeq",
                               neighborCountsR,
                               weightsListR)
   # scoreMAX <- .get_score_max()
-  ans <- DataFrame(ends = unlist(means),
-                   scoreA = unlist(scoreA),
-                   scoreB = unlist(scoreB),
-                   scoreRMS = unlist(scoreRMS),
-                   row.names = NULL)
-  ans <- SplitDataFrameList(ans)
+  ans <- S4Vectors::DataFrame(ends = unlist(means),
+                              scoreA = unlist(scoreA),
+                              scoreB = unlist(scoreB),
+                              scoreRMS = unlist(scoreRMS),
+                              row.names = NULL)
+  ans <- IRanges::SplitDataFrameList(ans)
   ans@partitioning <- mod@partitioning
   ans
 }
@@ -564,8 +571,8 @@ setMethod(
   message("Searching for 2'-O methylations...")
   #
   data <- seqData(x)
-  letters <- CharacterList(strsplit(as.character(sequences(data)),""))
-  ranges <- split(.get_parent_annotations(ranges(data)),
+  letters <- IRanges::CharacterList(strsplit(as.character(sequences(data)),""))
+  ranges <- split(RNAmodR:::.get_parent_annotations(ranges(data)),
                   seq_along(ranges(data)))
   # get the aggregate data
   mod <- aggregateData(x)
@@ -578,7 +585,7 @@ setMethod(
   # find modifications
   modifications <- mapply(
     function(m,l,r){
-      rownames(m) <- seq_len(width(r)) + 1
+      rownames(m) <- seq_len(BiocGenerics::width(r)) + 1
       m <- m[!is.na(m$scoreA) &
                !is.na(m$scoreB) &
                !is.na(m$scoreRMS),]
@@ -590,21 +597,23 @@ setMethod(
                     m$scoreRMS >= minScoreRMS),]
       m <- m[m$ends >= minSignal,]
       if(nrow(m) == 0L) return(NULL)
-      ans <- .construct_mod_ranges(r,
-                                   m,
-                                   modType = "Am",
-                                   scoreFun = .get_rms_scores,
-                                   source = "RNAmodR",
-                                   type = "RNAMOD")
-      ans$mod <- paste0(l[start(ans)],"m")
+      ans <- RNAmodR:::.construct_mod_ranges(
+        r,
+        m,
+        modType = "Am",
+        scoreFun = RNAmodR.RiboMethSeq::.get_rms_scores,
+        source = "RNAmodR",
+        type = "RNAMOD")
+      ans$mod <- paste0(l[BiocGenerics::start(ans)],"m")
       ans
     },
     mod,
     letters,
     ranges)
-  modifications <- GRangesList(modifications[!vapply(modifications,
-                                                     is.null,
-                                                     logical(1))])
+  modifications <- GenomicRanges::GRangesList(
+    modifications[!vapply(modifications,
+                          is.null,
+                          logical(1))])
   unname(unlist(modifications))
 }
 

@@ -19,6 +19,8 @@
 \usage{
 \S4method{settings}{ModRiboMethSeq}(x) <- value
 
+ModRiboMethSeq(x, ...)
+
 \S4method{ModRiboMethSeq}{character}(x, fasta, gff, modifications = NULL,
   ...)
 
@@ -63,10 +65,11 @@ positions, if at least one minimal values is exceeded (default:
 \item{maxLength:}{The default read length. Reads with this length or longer
 are discarded, since they represent non-fragemented reads. This might need to
 be adjusted for individual samples dending on the experimental conditions.
-This is argument is passed on to \code{\link{ProtectedEndSequenceData}} 
+This is argument is passed on to 
+\code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
 (default: \code{maxLength = 50L})}
 \item{other arguments}{which are passed on to 
-\code{\link{ProtectedEndSequenceData}}}
+\code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}}
 }}
 }
 \description{

@@ -10,9 +10,7 @@
 NULL
 
 #' @import methods
-#' @import assertive
 #' @import RNAmodR
 NULL
 requireNamespace("IRanges")
-requireNamespace("GenomicRanges")
 requireNamespace("RNAmodR")
