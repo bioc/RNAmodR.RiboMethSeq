@@ -16,10 +16,13 @@ RNAMODR_RMS_PLOT_DATA_COLOURS <- c(ends = "#FBB4AE",
                                    scoreRMS = "#DECBE4")
 #' @rdname ModRiboMethSeq
 #' 
+#' @name visualizeData
 #' @details 
 #' \code{ModRiboMethSeq} specific arguments for \link{visualizeData}:
 #' \itemize{
-#' 
+#' \item{\code{colour} - }{a named character vector of \code{length = 4} 
+#' for the colours of the individual histograms. The names are expected to be 
+#' \code{c("ends","scoreA","scoreB","scoreRMS")}}
 #' }
 NULL
 
