@@ -570,10 +570,10 @@ setMethod(
 .find_rms <- function(x){
   message("Searching for 2'-O methylations...")
   #
-  data <- seqData(x)
-  letters <- IRanges::CharacterList(strsplit(as.character(sequences(data)),""))
-  ranges <- split(RNAmodR:::.get_parent_annotations(ranges(data)),
-                  seq_along(ranges(data)))
+  letters <- IRanges::CharacterList(strsplit(as.character(sequences(x)),""))
+  ranges <- ranges(x)
+  ranges <- split(RNAmodR:::.get_parent_annotations(ranges),
+                  seq_along(ranges))
   # get the aggregate data
   mod <- aggregateData(x)
   # setup args
