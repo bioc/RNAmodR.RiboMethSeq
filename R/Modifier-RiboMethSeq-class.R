@@ -597,13 +597,12 @@ setMethod(
                     m$scoreRMS >= minScoreRMS),]
       m <- m[m$ends >= minSignal,]
       if(nrow(m) == 0L) return(NULL)
-      ans <- RNAmodR:::.construct_mod_ranges(
-        r,
-        m,
-        modType = "Am",
-        scoreFun = RNAmodR.RiboMethSeq::.get_rms_scores,
-        source = "RNAmodR",
-        type = "RNAMOD")
+      ans <- .constructModRanges(r,
+                                 m,
+                                 modType = "Am",
+                                 scoreFun = RNAmodR.RiboMethSeq:::.get_rms_scores,
+                                 source = "RNAmodR",
+                                 type = "RNAMOD")
       ans$mod <- paste0(l[BiocGenerics::start(ans)],"m")
       ans
     },
