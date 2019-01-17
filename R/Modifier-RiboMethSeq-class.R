@@ -590,19 +590,20 @@ setMethod(
                !is.na(m$scoreB) &
                !is.na(m$scoreRMS),]
       if(nrow(m) == 0L) return(NULL)
+      m <- m[m$ends >= minSignal,]
       m <- m[mapply(Reduce,
                     rep(scoreOperator,nrow(m)),
                     m$scoreA >= minScoreA,
                     m$scoreB >= minScoreB,
                     m$scoreRMS >= minScoreRMS),]
-      m <- m[m$ends >= minSignal,]
       if(nrow(m) == 0L) return(NULL)
-      ans <- .constructModRanges(r,
-                                 m,
-                                 modType = "Am",
-                                 scoreFun = RNAmodR.RiboMethSeq:::.get_rms_scores,
-                                 source = "RNAmodR",
-                                 type = "RNAMOD")
+      ans <- .constructModRanges(
+        r,
+        m,
+        modType = "Am",
+        scoreFun = RNAmodR.RiboMethSeq:::.get_rms_scores,
+        source = "RNAmodR.RiboMethSeq",
+        type = "RNAMOD")
       ans$mod <- paste0(l[BiocGenerics::start(ans)],"m")
       ans
     },
