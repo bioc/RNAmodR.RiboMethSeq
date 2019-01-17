@@ -5,13 +5,13 @@
 \name{ModRiboMethSeq}
 \alias{ModRiboMethSeq}
 \alias{RiboMethSeq}
+\alias{ModSetRiboMethSeq}
 \alias{ModRiboMethSeq-class}
 \alias{ModRiboMethSeq,character-method}
 \alias{ModRiboMethSeq,BamFileList-method}
 \alias{ModRiboMethSeq,SequenceData-method}
 \alias{modify,ModRiboMethSeq-method}
 \alias{ModSetRiboMethSeq-class}
-\alias{ModSetRiboMethSeq}
 \alias{visualizeData}
 \alias{visualizeDataByCoord,ModRiboMethSeq,GRanges-method}
 \alias{visualizeData,ModRiboMethSeq-method}
@@ -88,4 +88,7 @@ To disable minimal values for modification calling, set them to \code{Inf}
 for the colours of the individual histograms. The names are expected to be 
 \code{c("ends","scoreA","scoreB","scoreRMS")}}
 }
+}
+\author{
+Felix G.M. Ernst \email{felix.gm.ernst@outlook.com}
 }

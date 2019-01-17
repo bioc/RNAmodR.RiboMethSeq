@@ -2,7 +2,9 @@
 NULL
 
 #' @name ModRiboMethSeq
-#' @aliases RiboMethSeq ModRiboMethSeq
+#' @aliases RiboMethSeq ModRiboMethSeq ModSetRiboMethSeq
+#' 
+#' @author Felix G.M. Ernst \email{felix.gm.ernst@@outlook.com}
 #' 
 #' @title ModRiboMethSeq
 #' @description 
@@ -79,6 +81,9 @@ setMethod(
     return(FALSE)
   }
   if(length(weights) < 3L){
+    return(FALSE)
+  }
+  if(weights[ceiling(length(weights)/2)] != 0){
     return(FALSE)
   }
   TRUE
@@ -346,11 +351,11 @@ setMethod("ModRiboMethSeq",
   countsSdR[is.na(countsSdR)] <- 0
   # calc score per replicate
   scoreA <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_A,
-                               data,
-                               countsMeanL,
-                               countsSdL,
-                               countsMeanR,
-                               countsSdR))
+                                        data,
+                                        countsMeanL,
+                                        countsSdL,
+                                        countsMeanR,
+                                        countsSdR))
   return(scoreA)
 }
 
@@ -361,11 +366,11 @@ setMethod("ModRiboMethSeq",
                          countsR,
                          weightsR){
   scoreB <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_B,
-                               data,
-                               countsL,
-                               weightsL,
-                               countsR,
-                               weightsR))
+                                        data,
+                                        countsL,
+                                        weightsL,
+                                        countsR,
+                                        weightsR))
   return(scoreB)
 }
 
@@ -376,11 +381,11 @@ setMethod("ModRiboMethSeq",
                             countsR,
                             weightsR){
   scoreMeth <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_meth,
-                                  data,
-                                  countsL,
-                                  weightsL,
-                                  countsR,
-                                  weightsR))
+                                           data,
+                                           countsL,
+                                           weightsL,
+                                           countsR,
+                                           weightsR))
   return(scoreMeth)
 }
 
