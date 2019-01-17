@@ -84,7 +84,10 @@ setMethod(
     n <- ncol(mcols(data))
     colour <- args[["colour"]]
     if(is.na(colour) || length(colour) != n){
-      colour <- RNAMODR_RMS_PLOT_DATA_COLOURS
+      colour <- RNAMODR_RMS_PLOT_DATA_COLOURS[seq.int(1,n)]
+    }
+    if(is.null(names(colour))){
+      names(colour) <- colnames(mcols(data))
     }
     dts <- lapply(seq_len(n),
                   function(i){
@@ -98,13 +101,58 @@ setMethod(
                                           type = "histogram")
                     if(column %in% c("scoreA","scoreRMS")){
                       Gviz::displayPars(dt)$ylim = c(0,1)
+                    } else if(!is.null(args[["ylim"]])){
+                      Gviz::displayPars(dt)$ylim <- args[["ylim"]]
                     }
                     Gviz::displayPars(dt)$background.title <- "#FFFFFF"
                     Gviz::displayPars(dt)$fontcolor.title <- "#000000"
                     Gviz::displayPars(dt)$col.axis <- "#000000"
+                    if(!is.null(args[["data.track.pars"]])){
+                      Gviz::displayPars(dt) <- args[["data.track.pars"]]
+                    }
                     dt
                   })
     names(dts) <- colnames(mcols(data))
     dts
+  }
+)
+
+#' @rdname ModRiboMethSeq
+#' @export
+setMethod(
+  f = "visualizeDataByCoord",
+  signature = signature(x = "ModSetRiboMethSeq",
+                        coord = "GRanges"),
+  definition = function(x,
+                        coord,
+                        type = c("scoreRMS","ends","scoreA","scoreB"),
+                        window.size = 15L,
+                        ...) {
+    type <- match.arg(type,c("scoreRMS","ends","scoreA","scoreB"))
+    callNextMethod(x = x,
+                   coord = coord,
+                   type = type,
+                   window.size = window.size,
+                   ...)
+  }
+)
+#' @rdname ModAlkAnilineSeq
+#' @export
+setMethod(
+  f = "visualizeData",
+  signature = signature(x = "ModSetRiboMethSeq"),
+  definition = function(x,
+                        name,
+                        from,
+                        to,
+                        type = c("scoreRMS","ends","scoreA","scoreB"),
+                        ...) {
+    type <- match.arg(type,c("scoreRMS","ends","scoreA","scoreB"))
+    callNextMethod(x = x,
+                   name,
+                   from,
+                   to,
+                   type = type,
+                   ...)
   }
 )
