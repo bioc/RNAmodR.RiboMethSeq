@@ -3,14 +3,14 @@ title: 'RNAmodR: RiboMethSeq'
 author: "Felix G.M. Ernst"
 date: "`r Sys.Date()`"
 abstract: >
-  Example of RiboMethSeq analysis
+  detection of 2'-O methylations by RiboMethSeq
 output:
   BiocStyle::html_document:
     toc: true
     toc_float: true
     df_print: paged
 vignette: >
-  %\VignetteIndexEntry{RNAmodR - RiboMethSet}
+  %\VignetteIndexEntry{RNAmodR.RiboMethSeq}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: references.bib
