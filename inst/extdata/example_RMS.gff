@@ -1,3 +1,0 @@
-##gff-version 3
-chr1	BestRefSeq	gene	1	157	.	+	.	ID=gene53984;Name=RNA5-8S5;gene=RNA5-8S5;
-chr1	BestRefSeq	rRNA	1	157	.	+	.	ID=rna156559;Name=NR_003285.2;gene=RNA5-8S5;Parent=gene53984
