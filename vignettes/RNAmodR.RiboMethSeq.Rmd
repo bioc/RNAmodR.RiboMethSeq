@@ -16,36 +16,86 @@ vignette: >
 bibliography: references.bib
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown(css.files = c('custom.css'))
 ```
 
-Analysis options
+# Introduction
 
-maxLength: 50L
-weights: 0.8,1,0,1,0.8
+
+
+
+```{r, echo = FALSE}
+suppressPackageStartupMessages({
+  library(GenomicFeatures)
+  library(RNAmodR.RiboMethSeq)
+})
+```
+```{r, eval = FALSE}
+library(GenomicFeatures)
+library(RNAmodR.RiboMethSeq)
+```
+
+# Example workflow
+
+```{r}
+gff <- system.file("extdata","example_RMS.gff3" ,package = "RNAmodR.Data")
+fasta <- system.file("extdata","example_RMS.fasta" ,package = "RNAmodR.Data")
+files <- list(c(treated = system.file("extdata","example_RMS.bam" ,package = "RNAmodR.Data")),
+              c(treated = system.file("extdata","example_RMS.bam" ,package = "RNAmodR.Data")),
+              c(treated = system.file("extdata","example_RMS.bam" ,package = "RNAmodR.Data")))
+```
+
+Analysis of data
+
+```{r}
+msrms <- ModSetRiboMethSeq(files,fasta,gff)
+```
+
+# Visualizing the results
+
+To compare samples, we need to know, which positions should be part of the
+comparison. This can either be done by aggregating the detect over all samples
+and use the union or intersect or by using publish data. We want to assemble
+a GRanges object from the latter. 
+
+We will load a table and assemble the GRanges object.
+
+```{r}
+table <- read.csv2(system.file("extdata","snoRNAdb.csv",
+                               package = "RNAmodR.Data"),
+                   stringsAsFactors = FALSE)
+table[1:2,]
+# keep only the current coordinates
+table <- table[,1:7]
+gr <- GRanges(seqnames = table$hgnc_symbol,
+              ranges = IRanges(start = table$position, width = 1),strand = "+",
+              type = "RNAMOD",
+              mod = table$modification,
+              Parent = table$hgnc_symbol,
+              Activity = CharacterList(strsplit(table$guide,",")))
+# convert to current gene name
+gr <- gr[vapply(gr$Activity != "unknown",all,logical(1)),]
+head(coord)
+coord <- split(gr,gr$Parent)
+```
+
+Heatmap
 
 ```{r}
 
-genome2 <- "GRCh38_rRNA_tRNA.fasta"
-annotation2 <- "GRCh38_rRNA_tRNA.gff"
-files2 <-  BamFileList(c(treated = "KS01.bam"))
-
 ```
+
+sequence specific result
 
 ```{r}
 
-genome2 <- "GRCh38_rRNA_tRNA.fasta"
-annotation2 <- "GRCh38_rRNA_tRNA.gff"
-files3 <- list("HCT116" = c(treated = "KS01.bam"),
-               "HCT116 snR46del 1" = c(treated = "KS02.bam"),
-               "HCT116 snR46del 2" = c(treated = "KS03.bam"),
-               "HCT116 snR46del 3" = c(treated = "KS04.bam"),
-               "HCT116 snR46del 5" = c(treated = "KS05.bam"))
-
-
-
-
-visualizeDataByCoord(msrms[[2]],singleCoord,additional.mod = coord[[3]], modified.seq = TRUE)
-
 ```
+
+# Session info
+
+```{r, sessioninfo}
+sessioninfo::session_info()
+```
+
+# References

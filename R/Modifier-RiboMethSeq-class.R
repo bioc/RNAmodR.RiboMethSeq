@@ -54,7 +54,7 @@ setClass("ModRiboMethSeq",
          contains = c("Modifier"),
          prototype = list(mod = c("Am","Cm","Gm","Um"),
                           score = "scoreRMS",
-                          dataClass = "ProtectedEndSequenceData"))
+                          dataType = "ProtectedEndSequenceData"))
 
 setMethod(
   f = "initialize", 
@@ -71,7 +71,7 @@ setMethod(
   }
 )
 
-# constructors -----------------------------------------------------------------
+# settings ---------------------------------------------------------------------
 
 .valid_rms_weights <- function(weights){
   if(!is.numeric(weights) | !is.atomic(weights)){
@@ -172,6 +172,37 @@ setReplaceMethod(f = "settings",
                    x
                  })
 
+# constructor ------------------------------------------------------------------
+
+.RiboMethSeq_from_character <- function(x,
+                                        fasta,
+                                        gff,
+                                        args){
+  ans <- new("ModRiboMethSeq",
+             x,
+             fasta,
+             gff)
+  ans <- RNAmodR:::.ModFromCharacter(ans,
+                                     args)
+  ans <- RNAmodR:::.norm_modifications(ans,
+                                       args)
+  ans
+}
+.RiboMethSeq_from_SequenceData <- function(x,
+                                           args){
+  x <- as(x,"SequenceDataList")
+  ans <- new("ModRiboMethSeq",
+             bamfiles(x),
+             fasta(x),
+             gff(x))
+  ans <- RNAmodR:::.ModFromSequenceData(ans,
+                                        x,
+                                        args)
+  ans <- RNAmodR:::.norm_modifications(ans,
+                                       args)
+  ans
+}
+
 #' @rdname ModRiboMethSeq
 #' @export
 setGeneric( 
@@ -187,17 +218,11 @@ setMethod("ModRiboMethSeq",
           function(x,
                    fasta,
                    gff,
-                   modifications = NULL,
                    ...){
-            ans <- new("ModRiboMethSeq",
-                       x,
-                       fasta,
-                       gff)
-            ans <- RNAmodR:::.ModFromCharacter(ans,
-                                               list(...))
-            ans <- RNAmodR:::.norm_modifications(ans,
-                                                 list(...))
-            ans
+            .RiboMethSeq_from_character(x,
+                                        fasta,
+                                        gff,
+                                        list(...))
           }
 )
 
@@ -209,17 +234,11 @@ setMethod("ModRiboMethSeq",
           function(x,
                    fasta,
                    gff,
-                   modifications = NULL,
                    ...){
-            ans <- new("ModRiboMethSeq",
-                       x,
-                       fasta,
-                       gff)
-            ans <- RNAmodR:::.ModFromCharacter(ans,
-                                               list(...))
-            ans <- RNAmodR:::.norm_modifications(ans,
-                                                 list(...))
-            ans
+            .RiboMethSeq_from_character(x,
+                                        fasta,
+                                        gff,
+                                        list(...))
           }
 )
 
@@ -229,18 +248,19 @@ setMethod("ModRiboMethSeq",
 setMethod("ModRiboMethSeq",
           signature = c(x = "SequenceData"),
           function(x,
-                   modifications = NULL,
                    ...){
-            ans <- new("ModRiboMethSeq",
-                       bamfiles(x),
-                       fasta(x),
-                       gff(x))
-            ans <- RNAmodR:::.ModFromSequenceData(ans,
-                                                  x,
-                                                  list(...))
-            ans <- RNAmodR:::.norm_modifications(ans,
-                                                 list(...))
-            ans
+            .RiboMethSeq_from_SequenceData(list(x),
+                                           list(...))
+          }
+)
+#' @rdname ModRiboMethSeq
+#' @export
+setMethod("ModRiboMethSeq",
+          signature = c(x = "list"),
+          function(x,
+                   ...){
+            .RiboMethSeq_from_SequenceData(x,
+                                           list(...))
           }
 )
 
@@ -590,12 +610,13 @@ setMethod(
   # find modifications
   modifications <- mapply(
     function(m,l,r){
-      rownames(m) <- seq_len(BiocGenerics::width(r)) + 1
+      rownames(m) <- seq_len(BiocGenerics::width(r))
       m <- m[!is.na(m$scoreA) &
                !is.na(m$scoreB) &
                !is.na(m$scoreRMS),]
       if(nrow(m) == 0L) return(NULL)
       m <- m[m$ends >= minSignal,]
+      if(nrow(m) == 0L) return(NULL)
       m <- m[mapply(Reduce,
                     rep(scoreOperator,nrow(m)),
                     m$scoreA >= minScoreA,

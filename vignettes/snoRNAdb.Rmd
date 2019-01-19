@@ -18,9 +18,9 @@ We will load a table and assemble the GRanges object.
 
 ```{r}
 library(GenomicFeatures)
-library(stringr)
-
-table <- read.csv2("inst/extdata/snoRNAdb.csv", fileEncoding = "UTF-8-BOM", stringsAsFactors = FALSE)
+table <- read.csv2(system.file("extdata","snoRNAdb.csv",
+                               package = "RNAmodR.Data"),
+                   stringsAsFactors = FALSE)
 table[1:2,]
 # keep only the current coordinates
 table <- table[,1:7]
@@ -31,29 +31,6 @@ gr <- GRanges(seqnames = table$hgnc_symbol,
               Parent = table$hgnc_symbol,
               Activity = CharacterList(strsplit(table$guide,",")))
 # convert to current gene name
-parents <- gr$Parent
-dict <- data.frame(old = c("RNA5-8SN5","RNA18SN5","RNA28SN5"),
-                   new = c("gene53984","gene53983","gene53985"),
-                   stringsAsFactors = FALSE)
-for(i in seq_len(nrow(dict))){
-  parents[parents == dict[i,"old"]] <- dict[i,"new"]
-}
-gr$Parent <- parents
-gr <- gr[gr$Parent %in% dict$new,]
 gr <- gr[vapply(gr$Activity != "unknown",all,logical(1)),]
 coord <- split(gr,gr$Parent)
-
-singleCoord <- coord[[3]]
-singleCoord <- singleCoord[any(singleCoord$Activity %in% "SNORD46")]
-```
-
-Inosine stuff
-```{r}
-singleCoord2 <- coord[[3]]
-singleCoord2 <- singleCoord[any(singleCoord$Activity %in% "SNORD46")]
-start(singleCoord2) <- 34
-end(singleCoord2) <- 34
-singleCoord2$mod <- "I"
-singleCoord2$Parent <- "tR(ACG)F1"
-singleCoord2$Activity <- NULL
 ```

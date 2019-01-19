@@ -10,24 +10,27 @@
 \alias{ModRiboMethSeq,character-method}
 \alias{ModRiboMethSeq,BamFileList-method}
 \alias{ModRiboMethSeq,SequenceData-method}
+\alias{ModRiboMethSeq,list-method}
 \alias{modify,ModRiboMethSeq-method}
 \alias{ModSetRiboMethSeq-class}
 \alias{visualizeData}
 \alias{visualizeDataByCoord,ModRiboMethSeq,GRanges-method}
 \alias{visualizeData,ModRiboMethSeq-method}
+\alias{visualizeDataByCoord,ModSetRiboMethSeq,GRanges-method}
+\alias{visualizeData,ModSetRiboMethSeq-method}
 \title{ModRiboMethSeq}
 \usage{
 \S4method{settings}{ModRiboMethSeq}(x) <- value
 
 ModRiboMethSeq(x, ...)
 
-\S4method{ModRiboMethSeq}{character}(x, fasta, gff, modifications = NULL,
-  ...)
+\S4method{ModRiboMethSeq}{character}(x, fasta, gff, ...)
 
-\S4method{ModRiboMethSeq}{BamFileList}(x, fasta, gff,
-  modifications = NULL, ...)
+\S4method{ModRiboMethSeq}{BamFileList}(x, fasta, gff, ...)
 
-\S4method{ModRiboMethSeq}{SequenceData}(x, modifications = NULL, ...)
+\S4method{ModRiboMethSeq}{SequenceData}(x, ...)
+
+\S4method{ModRiboMethSeq}{list}(x, ...)
 
 \S4method{aggregate}{ModRiboMethSeq}(x, force = FALSE)
 
@@ -41,6 +44,13 @@ ModSetRiboMethSeq(x, fasta = NA, gff = NA)
 
 \S4method{visualizeData}{ModRiboMethSeq}(x, name, from = 1L, to = 30L,
   type = c("ends", "scoreA", "scoreB", "scoreRMS"), ...)
+
+\S4method{visualizeDataByCoord}{ModSetRiboMethSeq,GRanges}(x, coord,
+  type = c("scoreRMS", "ends", "scoreA", "scoreB"), window.size = 15L,
+  ...)
+
+\S4method{visualizeData}{ModSetRiboMethSeq}(x, name, from = 1L,
+  to = 30L, type = c("scoreRMS", "ends", "scoreA", "scoreB"), ...)
 }
 \arguments{
 \item{...}{Optional arguments overwriting default values, which are

@@ -136,7 +136,7 @@ setMethod(
                    ...)
   }
 )
-#' @rdname ModAlkAnilineSeq
+#' @rdname ModRiboMethSeq
 #' @export
 setMethod(
   f = "visualizeData",
