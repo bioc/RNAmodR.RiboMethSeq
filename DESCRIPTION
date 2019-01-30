@@ -24,7 +24,9 @@ Suggests:
     BiocStyle,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    sessioninfo,
+    RNAmodR.Data
 Collate: 
     'RNAmodR.RiboMethSeq.R'
     'Modifier-RiboMethSeq-class.R'

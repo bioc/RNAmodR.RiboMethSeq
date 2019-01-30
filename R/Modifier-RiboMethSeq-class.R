@@ -16,6 +16,9 @@ NULL
 #' 
 #' To disable minimal values for modification calling, set them to \code{Inf}
 #' 
+#' @param annotation
+#' @param sequences
+#' @param seqinfo
 #' @param ... Optional arguments overwriting default values, which are
 #' \itemize{
 #' \item{weights:}{The weights used for calculating the scores B and RMS 
@@ -55,21 +58,6 @@ setClass("ModRiboMethSeq",
          prototype = list(mod = c("Am","Cm","Gm","Um"),
                           score = "scoreRMS",
                           dataType = "ProtectedEndSequenceData"))
-
-setMethod(
-  f = "initialize", 
-  signature = signature(.Object = "ModRiboMethSeq"),
-  definition = function(.Object,
-                        bamfiles,
-                        fasta,
-                        gff) {
-    .Object <- callNextMethod(.Object,
-                              bamfiles,
-                              fasta,
-                              gff)
-    return(.Object)
-  }
-)
 
 # settings ---------------------------------------------------------------------
 
@@ -165,7 +153,7 @@ setMethod(
 #' @export
 setReplaceMethod(f = "settings", 
                  signature = signature(x = "ModRiboMethSeq"),
-                 definition = function(x,value){
+                 definition = function(x, value){
                    x <- callNextMethod()
                    value <- .norm_rms_args(value)
                    x@arguments[names(value)] <- unname(value)
@@ -174,95 +162,12 @@ setReplaceMethod(f = "settings",
 
 # constructor ------------------------------------------------------------------
 
-.RiboMethSeq_from_character <- function(x,
-                                        fasta,
-                                        gff,
-                                        args){
-  ans <- new("ModRiboMethSeq",
-             x,
-             fasta,
-             gff)
-  ans <- RNAmodR:::.ModFromCharacter(ans,
-                                     args)
-  ans <- RNAmodR:::.norm_modifications(ans,
-                                       args)
-  ans
+#' @rdname ModRiboMethSeq
+#' @export
+ModInosine <- function(x, annotation = NA, sequences = NA, seqinfo = NA, ...){
+  Modifier("ModRiboMethSeq", x = x, annotation = annotation,
+           sequences = sequences, seqinfo = seqinfo, ...)
 }
-.RiboMethSeq_from_SequenceData <- function(x,
-                                           args){
-  x <- as(x,"SequenceDataList")
-  ans <- new("ModRiboMethSeq",
-             bamfiles(x),
-             fasta(x),
-             gff(x))
-  ans <- RNAmodR:::.ModFromSequenceData(ans,
-                                        x,
-                                        args)
-  ans <- RNAmodR:::.norm_modifications(ans,
-                                       args)
-  ans
-}
-
-#' @rdname ModRiboMethSeq
-#' @export
-setGeneric( 
-  name = "ModRiboMethSeq",
-  def = function(x,
-                 ...) standardGeneric("ModRiboMethSeq")
-)
-# Create Modifier class from file character, fasta and gff file
-#' @rdname ModRiboMethSeq
-#' @export
-setMethod("ModRiboMethSeq",
-          signature = c(x = "character"),
-          function(x,
-                   fasta,
-                   gff,
-                   ...){
-            .RiboMethSeq_from_character(x,
-                                        fasta,
-                                        gff,
-                                        list(...))
-          }
-)
-
-# Create Modifier class from bamfiles, fasta and gff file
-#' @rdname ModRiboMethSeq
-#' @export
-setMethod("ModRiboMethSeq",
-          signature = c(x = "BamFileList"),
-          function(x,
-                   fasta,
-                   gff,
-                   ...){
-            .RiboMethSeq_from_character(x,
-                                        fasta,
-                                        gff,
-                                        list(...))
-          }
-)
-
-# Create Modifier class from existing SequenceData
-#' @rdname ModRiboMethSeq
-#' @export
-setMethod("ModRiboMethSeq",
-          signature = c(x = "SequenceData"),
-          function(x,
-                   ...){
-            .RiboMethSeq_from_SequenceData(list(x),
-                                           list(...))
-          }
-)
-#' @rdname ModRiboMethSeq
-#' @export
-setMethod("ModRiboMethSeq",
-          signature = c(x = "list"),
-          function(x,
-                   ...){
-            .RiboMethSeq_from_SequenceData(x,
-                                           list(...))
-          }
-)
 
 # functions --------------------------------------------------------------------
 
@@ -573,8 +478,7 @@ setMethod(
   f = "aggregate", 
   signature = signature(x = "ModRiboMethSeq"),
   definition = 
-    function(x,
-             force = FALSE){
+    function(x, force = FALSE){
       if(missing(force)){
         force <- FALSE
       }
@@ -647,8 +551,7 @@ setMethod(
 #' @export
 setMethod("modify",
           signature = c(x = "ModRiboMethSeq"),
-          function(x,
-                   force){
+          function(x, force){
             # get the aggregate data
             x <- aggregate(x, force)
             x@modifications <- .find_rms(x)
@@ -668,6 +571,7 @@ setClass("ModSetRiboMethSeq",
 
 #' @rdname ModRiboMethSeq
 #' @export
-ModSetRiboMethSeq <- function(x, fasta = NA, gff = NA){
-  ModifierSet("ModRiboMethSeq", x, fasta = fasta, gff = gff)
+ModSetRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA){
+  ModifierSet("ModRiboMethSeq", x, annotation = annotation,
+              sequences = sequences, seqinfo = seqinfo)
 }

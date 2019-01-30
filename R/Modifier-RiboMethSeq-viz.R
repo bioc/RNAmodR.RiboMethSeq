@@ -32,18 +32,14 @@ setMethod(
   f = "visualizeDataByCoord",
   signature = signature(x = "ModRiboMethSeq",
                         coord = "GRanges"),
-  definition = function(x,
-                        coord,
+  definition = function(x, coord,
                         type = c("ends","scoreA","scoreB","scoreRMS"),
                         window.size = 15L,
                         ...) {
     if(missing(type)){
       type <- RNAMODR_RMS_PLOT_DATA
     }
-    callNextMethod(x = x,
-                   coord = coord,
-                   type = type,
-                   window.size = window.size,
+    callNextMethod(x = x, coord = coord, type = type, window.size = window.size,
                    ...)
   }
 )
@@ -52,21 +48,12 @@ setMethod(
 setMethod(
   f = "visualizeData",
   signature = signature(x = "ModRiboMethSeq"),
-  definition = function(x,
-                        name,
-                        from,
-                        to,
-                        type = c("ends","scoreA","scoreB","scoreRMS"),
-                        ...) {
+  definition = function(x, name, from, to,
+                        type = c("ends","scoreA","scoreB","scoreRMS"), ...) {
     if(missing(type)){
       type <- RNAMODR_RMS_PLOT_DATA
     }
-    callNextMethod(x = x,
-                   name,
-                   from,
-                   to,
-                   type = type,
-                   ...)
+    callNextMethod(x = x, name, from, to, type = type, ...)
   }
 )
 
@@ -76,11 +63,7 @@ setMethod(
                         data = "GRanges",
                         seqdata = "GRanges",
                         sequence = "XString"),
-  definition = function(x,
-                        data,
-                        seqdata,
-                        sequence,
-                        args) {
+  definition = function(x, data, seqdata, sequence, args) {
     n <- ncol(mcols(data))
     colour <- args[["colour"]]
     if(is.na(colour) || length(colour) != n){
@@ -123,16 +106,12 @@ setMethod(
   f = "visualizeDataByCoord",
   signature = signature(x = "ModSetRiboMethSeq",
                         coord = "GRanges"),
-  definition = function(x,
-                        coord,
+  definition = function(x, coord,
                         type = c("scoreRMS","ends","scoreA","scoreB"),
                         window.size = 15L,
                         ...) {
     type <- match.arg(type,c("scoreRMS","ends","scoreA","scoreB"))
-    callNextMethod(x = x,
-                   coord = coord,
-                   type = type,
-                   window.size = window.size,
+    callNextMethod(x = x, coord = coord, type = type, window.size = window.size,
                    ...)
   }
 )
@@ -141,18 +120,9 @@ setMethod(
 setMethod(
   f = "visualizeData",
   signature = signature(x = "ModSetRiboMethSeq"),
-  definition = function(x,
-                        name,
-                        from,
-                        to,
-                        type = c("scoreRMS","ends","scoreA","scoreB"),
-                        ...) {
+  definition = function(x, name, from, to,
+                        type = c("scoreRMS","ends","scoreA","scoreB"), ...) {
     type <- match.arg(type,c("scoreRMS","ends","scoreA","scoreB"))
-    callNextMethod(x = x,
-                   name,
-                   from,
-                   to,
-                   type = type,
-                   ...)
+    callNextMethod(x = x, name, from, to, type = type, ...)
   }
 )
