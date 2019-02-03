@@ -164,9 +164,10 @@ setReplaceMethod(f = "settings",
 
 #' @rdname ModRiboMethSeq
 #' @export
-ModInosine <- function(x, annotation = NA, sequences = NA, seqinfo = NA, ...){
-  Modifier("ModRiboMethSeq", x = x, annotation = annotation,
-           sequences = sequences, seqinfo = seqinfo, ...)
+ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
+                           ...){
+  RNAmodR:::Modifier("ModRiboMethSeq", x = x, annotation = annotation,
+                     sequences = sequences, seqinfo = seqinfo, ...)
 }
 
 # functions --------------------------------------------------------------------
@@ -358,8 +359,7 @@ ModInosine <- function(x, annotation = NA, sequences = NA, seqinfo = NA, ...){
     stop("Something went wrong.")
   }
   # get the means. the sds arecurrently disregarded for this analysis
-  mod <- aggregate(seqData(x),
-                   condition = "Treated")
+  mod <- aggregate(seqData(x), condition = "Treated")
   means <- IRanges::IntegerList(mod@unlistData[,which(grepl("mean",
                                                             colnames(mod@unlistData)))])
   means@partitioning <- mod@partitioning
@@ -500,9 +500,7 @@ setMethod(
   message("Searching for 2'-O methylations...")
   #
   letters <- IRanges::CharacterList(strsplit(as.character(sequences(x)),""))
-  ranges <- ranges(x)
-  ranges <- split(RNAmodR:::.get_parent_annotations(ranges),
-                  seq_along(ranges))
+  grl <- ranges(x)
   # get the aggregate data
   mod <- aggregateData(x)
   # setup args
@@ -527,7 +525,7 @@ setMethod(
                     m$scoreB >= minScoreB,
                     m$scoreRMS >= minScoreRMS),]
       if(nrow(m) == 0L) return(NULL)
-      ans <- .constructModRanges(
+      ans <- RNAmodR::.constructModRanges(
         r,
         m,
         modType = "Am",
@@ -539,7 +537,7 @@ setMethod(
     },
     mod,
     letters,
-    ranges)
+    grl)
   modifications <- GenomicRanges::GRangesList(
     modifications[!vapply(modifications,
                           is.null,
@@ -572,6 +570,6 @@ setClass("ModSetRiboMethSeq",
 #' @rdname ModRiboMethSeq
 #' @export
 ModSetRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA){
-  ModifierSet("ModRiboMethSeq", x, annotation = annotation,
-              sequences = sequences, seqinfo = seqinfo)
+  RNAmodR::ModifierSet("ModRiboMethSeq", x, annotation = annotation,
+                       sequences = sequences, seqinfo = seqinfo)
 }

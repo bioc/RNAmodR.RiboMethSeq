@@ -110,6 +110,9 @@ setMethod(
                         type = c("scoreRMS","ends","scoreA","scoreB"),
                         window.size = 15L,
                         ...) {
+    if(missing(type)){
+      type <- "scoreRMS"
+    }
     type <- match.arg(type,c("scoreRMS","ends","scoreA","scoreB"))
     callNextMethod(x = x, coord = coord, type = type, window.size = window.size,
                    ...)
@@ -122,6 +125,9 @@ setMethod(
   signature = signature(x = "ModSetRiboMethSeq"),
   definition = function(x, name, from, to,
                         type = c("scoreRMS","ends","scoreA","scoreB"), ...) {
+    if(missing(type)){
+      type <- "scoreRMS"
+    }
     type <- match.arg(type,c("scoreRMS","ends","scoreA","scoreB"))
     callNextMethod(x = x, name, from, to, type = type, ...)
   }

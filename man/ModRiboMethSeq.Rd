@@ -7,10 +7,6 @@
 \alias{RiboMethSeq}
 \alias{ModSetRiboMethSeq}
 \alias{ModRiboMethSeq-class}
-\alias{ModRiboMethSeq,character-method}
-\alias{ModRiboMethSeq,BamFileList-method}
-\alias{ModRiboMethSeq,SequenceData-method}
-\alias{ModRiboMethSeq,list-method}
 \alias{modify,ModRiboMethSeq-method}
 \alias{ModSetRiboMethSeq-class}
 \alias{visualizeData}
@@ -22,21 +18,13 @@
 \usage{
 \S4method{settings}{ModRiboMethSeq}(x) <- value
 
-ModRiboMethSeq(x, ...)
-
-\S4method{ModRiboMethSeq}{character}(x, fasta, gff, ...)
-
-\S4method{ModRiboMethSeq}{BamFileList}(x, fasta, gff, ...)
-
-\S4method{ModRiboMethSeq}{SequenceData}(x, ...)
-
-\S4method{ModRiboMethSeq}{list}(x, ...)
+ModRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA, ...)
 
 \S4method{aggregate}{ModRiboMethSeq}(x, force = FALSE)
 
 \S4method{modify}{ModRiboMethSeq}(x, force = FALSE)
 
-ModSetRiboMethSeq(x, fasta = NA, gff = NA)
+ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA)
 
 \S4method{visualizeDataByCoord}{ModRiboMethSeq,GRanges}(x, coord,
   type = c("ends", "scoreA", "scoreB", "scoreRMS"), window.size = 15L,
