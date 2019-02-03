@@ -1,20 +1,35 @@
 ---
-title: "snoRNAdb"
+title: "Loading snoRNAdb data"
 author: "Felix G.M. Ernst"
-date: "9 Januar 2019"
-output: html_document
+date: "`r Sys.Date()`"
+output:
+  BiocStyle::html_document:
+    toc: true
+    toc_float: true
+    df_print: paged
+vignette: >
+  %\VignetteIndexEntry{snoRNAdb.data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-To compare samples, we need to know, which positions should be part of the
-comparison. This can either be done by aggregating the detect over all samples
-and use the union or intersect or by using publish data. We want to assemble
-a GRanges object from the latter. 
+To compare samples, we need to define, which positions should be part of the
+comparison. This can either be done by aggregating the detected modifications
+over all samples and use the union or intersect or by using publish data. 
+We want to assemble a GRanges object from the latter. 
 
-We will load a table and assemble the GRanges object.
+For this We will load a table containg the published data from the snoRNAdb 
+[@Lestrade] and assemble the GRanges object.
+```{r, echo=FALSE}
+suppressPackageStartupMessages({
+  library(GenomicFeatures)
+})
+```
 
 ```{r}
 library(GenomicFeatures)
@@ -34,3 +49,5 @@ gr <- GRanges(seqnames = table$hgnc_symbol,
 gr <- gr[vapply(gr$Activity != "unknown",all,logical(1)),]
 coord <- split(gr,gr$Parent)
 ```
+
+# References

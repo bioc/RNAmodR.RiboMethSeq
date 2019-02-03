@@ -42,4 +42,10 @@ test_that("RiboMethSeq:",{
   expect_error(RNAmodR.RiboMethSeq:::.norm_rms_args(list(scoreOperator = 2L)))
   expect_equal(RNAmodR.RiboMethSeq:::.norm_rms_args(list(scoreOperator = "&")),
                actual)
+  
+  data <- data.frame(ends = "1", scoreRMS = "a", scoreA = "b", scoreB = "c",
+                     stringsAsFactors = FALSE)
+  actual <- RNAmodR.RiboMethSeq:::.get_rms_scores(data)
+  expect_type(actual,"list")
+  expect_named(actual,c("score","scoreA","scoreB"))
 })

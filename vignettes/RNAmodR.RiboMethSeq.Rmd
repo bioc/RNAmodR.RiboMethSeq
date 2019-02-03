@@ -1,9 +1,9 @@
 ---
 title: 'RNAmodR: RiboMethSeq'
-author: "Felix G.M. Ernst"
+author: "Felix G.M. Ernst and Denis L.J. Lafontaine"
 date: "`r Sys.Date()`"
 abstract: >
-  detection of 2'-O methylations by RiboMethSeq
+  Detection of 2'-O methylations by RiboMethSeq
 output:
   BiocStyle::html_document:
     toc: true
@@ -22,34 +22,44 @@ BiocStyle::markdown(css.files = c('custom.css'))
 
 # Introduction
 
-
-
-
 ```{r, echo = FALSE}
 suppressPackageStartupMessages({
+  library(rtracklayer)
+  library(Rsamtools)
   library(GenomicFeatures)
   library(RNAmodR.RiboMethSeq)
 })
 ```
 ```{r, eval = FALSE}
+library(rtracklayer)
+library(Rsamtools)
 library(GenomicFeatures)
 library(RNAmodR.RiboMethSeq)
 ```
 
 # Example workflow
 
+The example workflow is limited to two 2'-O methylated position on 5.8S rRNA,
+since the size of the raw data is limited. For annotation data either a gff file
+or a `TxDb` object and for sequence data a fasta file or a `BSgenome` object can
+be used. The data is provided as bam files.
+
 ```{r}
-gff <- system.file("extdata","example_RMS.gff3" ,package = "RNAmodR.Data")
-fasta <- system.file("extdata","example_RMS.fasta" ,package = "RNAmodR.Data")
-files <- list(c(treated = system.file("extdata","example_RMS.bam" ,package = "RNAmodR.Data")),
-              c(treated = system.file("extdata","example_RMS.bam" ,package = "RNAmodR.Data")),
-              c(treated = system.file("extdata","example_RMS.bam" ,package = "RNAmodR.Data")))
+gff <- GFF3File(system.file("extdata","example_RMS.gff3",package = "RNAmodR.Data"))
+fasta <- FaFile(system.file("extdata","example_RMS.fasta",package = "RNAmodR.Data"))
+files <- list("Sample1" = c(treated = system.file("extdata","example_RMS1.bam",package = "RNAmodR.Data")),
+              "Sample2" = c(treated = system.file("extdata","example_RMS2.bam",package = "RNAmodR.Data")))
 ```
 
-Analysis of data
+# Analysis of data
+
+THe analysis is triggered by the construction of a `ModSetRiboMethSeq` object.
+Internally parallelization is used via the `BiocParallel` package, which would
+allow optimization depending on number/size of input files (number of samples,
+number of replicates, number of transcripts, etc).
 
 ```{r}
-msrms <- ModSetRiboMethSeq(files,fasta,gff)
+msrms <- ModSetRiboMethSeq(files, annotation = gff, sequences = fasta)
 ```
 
 # Visualizing the results
@@ -59,37 +69,57 @@ comparison. This can either be done by aggregating the detect over all samples
 and use the union or intersect or by using publish data. We want to assemble
 a GRanges object from the latter. 
 
-We will load a table and assemble the GRanges object.
+In this specific example we just assemble information for the 5.8S RNA. The
+information regarding the parent and seqname must match the information used
+as the annotation data. Check that it matches the output of `ranges()` on a
+`SequenceData`, `Modifier` oder `ModifierSet` object.
 
 ```{r}
 table <- read.csv2(system.file("extdata","snoRNAdb.csv",
                                package = "RNAmodR.Data"),
                    stringsAsFactors = FALSE)
-table[1:2,]
+table <- table[table$hgnc_id == "53533",] # Subset to RNA5.8S
 # keep only the current coordinates
 table <- table[,1:7]
-gr <- GRanges(seqnames = table$hgnc_symbol,
-              ranges = IRanges(start = table$position, width = 1),strand = "+",
+gr <- GRanges(seqnames = "chr1",
+              ranges = IRanges(start = table$position,
+                               width = 1),
+              strand = "+",
               type = "RNAMOD",
               mod = table$modification,
-              Parent = table$hgnc_symbol,
+              Parent = "1", #this is the transcript id
               Activity = CharacterList(strsplit(table$guide,",")))
-# convert to current gene name
-gr <- gr[vapply(gr$Activity != "unknown",all,logical(1)),]
-head(coord)
 coord <- split(gr,gr$Parent)
 ```
 
-Heatmap
+In addition to the coordinates of published, we also want to include more 
+meaningful names for the transcripts. For this we provide a `data.frame` with
+two columns, `tx_id` and `name`. All values in the first column have to match
+transcript IDs.
 
 ```{r}
-
+ranges(msrms)
+alias <- data.frame(tx_id = "1", name = "5.8S rRNA", stringsAsFactors = FALSE)
 ```
 
-sequence specific result
+```{r plot1, fig.cap="Heatmap showing RiboMethSeq scores for 2'-O methylated positions on the 5.8S rRNA."}
+plotCompareByCoord(msrms,coord, alias = alias)
+```
 
-```{r}
+Results can also be compared on a sequence level, by selecting specific 
+coordinates to compare.
 
+```{r, plot2, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA."}
+singleCoord <- coord[[1]][1,]
+visualizeDataByCoord(msrms, singleCoord)
+```
+
+```{r, plot3, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA in Sample1."}
+visualizeDataByCoord(msrms[[1]], singleCoord)
+```
+
+```{r, plot4, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA in Sample2."}
+visualizeDataByCoord(msrms[[2]], singleCoord)
 ```
 
 # Session info

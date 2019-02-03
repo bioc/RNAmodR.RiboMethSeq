@@ -6,8 +6,13 @@
 \alias{RNAmodR.RiboMethSeq-package}
 \title{RNAmodR.RiboMethSeq}
 \description{
-todo xczCZXcZZcc cCX
+`RNAmodR.RiboMethSeq` implements the detection of 2'-O methylations from 
+RiboMethSeq data using the workflow and class the package `RNAmodR` provides.
+}
+\seealso{
+Further details are described in the man pages of the 
+\code{\link{Modifier}} object and the vignettes.
 }
 \author{
-Felix G M Ernst [aut]
+Felix G M Ernst [aut], Denis L.J Lafontaine [fnd]
 }

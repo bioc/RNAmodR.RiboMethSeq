@@ -4,41 +4,64 @@ NULL
 #' @name ModRiboMethSeq
 #' @aliases RiboMethSeq ModRiboMethSeq ModSetRiboMethSeq
 #' 
-#' @author Felix G.M. Ernst \email{felix.gm.ernst@@outlook.com}
+#' @author Felix G.M. Ernst
 #' 
 #' @title ModRiboMethSeq
 #' @description 
-#' title
+#' Among the various post-transcriptional RNA modifications, 2'-O methylations
+#' are quite common in rRNA and tRNA. They confere resistance to alkaline 
+#' degradation by preventing a nucleophilic attack on the 3'-phosphate 
+#' especially in flexible RNA, which is fascilitated by high pH conditions.
+#' This property can be queried using a method called RiboMethSeq (Birkedahl et 
+#' al. 2015, Marchand et al. 2017) for which RNA is treated in alkaline 
+#' conditions and RNA fragments are used to prepare a sequencing library.
 #' 
-#' The score MAX as described by publications from the Motorin lab are not 
-#' implemented since an unambigeous description is not available from the 
-#' literature.
+#' At position containing a 2'-O methylations, read ends are less frequent, 
+#' which is used to detect and score the2'-O methylations.
 #' 
-#' To disable minimal values for modification calling, set them to \code{Inf}
+#' The \code{ModRiboMethSeq} class uses the the 
+#' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
+#' class to store and aggregate data along the transcripts. The calculated 
+#' scores follow the nomenclature of Birkedahl et al. (2015) with the names
+#' \code{scoreRMS} (default), \code{scoreA} and \code{scoreB}.
 #' 
-#' @param annotation
-#' @param sequences
-#' @param seqinfo
+#' The score MAX as described by Marchand et al. (2017) are not implemented, 
+#' yet, since an unambigeous description is not available from the literature.
+#' 
+#' @param x the input which can be of the different types depending on whether
+#' a \code{ModRiboMethSeq} or a \code{ModSetRiboMethSeq} object is to be 
+#' constructed. For more information have a look at the documentation of
+#' the \code{\link[RNAmodR:Modifier]{Modifier}} and 
+#' \code{\link[RNAmodR:ModifierSet]{ModifierSet}} classes.
+#' @param annotation annotation data, which must match the information contained
+#' in the BAM files. This is parameter is only required if \code{x} if not a 
+#' \code{Modifier} object.
+#' @param sequences sequences matching the target sequences the reads were 
+#' mapped onto. This must match the information contained in the BAM files. This
+#' is parameter is only required if \code{x} if not a \code{Modifier} object.
+#' @param seqinfo An optional \code{\link[GenomeInfoDb:Seqinfo-class]{Seqinfo}} 
+#' argument or character vector, which can be coerced to one, to subset the 
+#' sequences to be analyzed on a per chromosome basis.
 #' @param ... Optional arguments overwriting default values, which are
 #' \itemize{
-#' \item{weights:}{The weights used for calculating the scores B and RMS 
+#' \item{weights:} {The weights used for calculating the scores B and RMS 
 #' (default: \code{weights = c(0.9,1,0,1,0.9)})}
-#' \item{flankingRegion:}{The size of the flanking region used for calculation 
+#' \item{flankingRegion:} {The size of the flanking region used for calculation 
 #' of score A as an integer value (default: \code{flankingRegion = 6L})}
-#' \item{minSignal:}{The minimal singal at the position as integer value 
+#' \item{minSignal:} {The minimal singal at the position as integer value 
 #' (default: \code{minSignal = 10L}). If the reaction is very specific a lower
 #' value and even 0L may need to be used}
-#' \item{minScoreA:}{minimum for score A to identify 2'-O methylated positions 
+#' \item{minScoreA:} {minimum for score A to identify 2'-O methylated positions 
 #' de novo (default: \code{minScoreA = 0.6})}
-#' \item{minScoreB:}{minimum for score B to identify 2'-O methylated positions 
+#' \item{minScoreB:} {minimum for score B to identify 2'-O methylated positions 
 #' de novo (default: \code{minScoreB = 3.0})}
-#' \item{minScoreRMS:}{minimum for score RMS to identify 2'-O methylated 
+#' \item{minScoreRMS:} {minimum for score RMS to identify 2'-O methylated 
 #' positions de novo (default: \code{minScoreRMS = 0.75})}
-#' \item{scoreOperator:}{how the minimal score should be used as logical 
+#' \item{scoreOperator:} {how the minimal score should be used as logical 
 #' operator. "&" requires all minimal values to be exceeded, whereas "|" detects
 #' positions, if at least one minimal values is exceeded (default: 
 #' \code{scoreOperator = "|"})}
-#' \item{maxLength:}{The default read length. Reads with this length or longer
+#' \item{maxLength:} {The default read length. Reads with this length or longer
 #' are discarded, since they represent non-fragemented reads. This might need to
 #' be adjusted for individual samples dending on the experimental conditions.
 #' This is argument is passed on to 
@@ -47,8 +70,21 @@ NULL
 #' \item{other arguments}{which are passed on to 
 #' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}}
 #' }
+#' To disable minimal values for modification calling, set them to \code{0}.
+#' It is not advised to set them all to \code{0}.
 #' 
+#' @references 
+#' - Birkedal U, Christensen-Dalsgaard M, Krogh N, Sabarinathan R, Gorodkin J, 
+#' Nielsen H (2015): "Profiling of ribose methylations in RNA by high-throughput
+#' sequencing." Angewandte Chemie (International ed. in English) 54 (2), 
+#' P. 451–455. DOI: 
+#' \href{https://doi.org/10.1002/anie.201408362}{10.1002/anie.201408362}.
 #' 
+#' - Marchand V, Ayadi L, El Hajj A, Blanloeil-Oillo F, Helm M, Motorin Y 
+#' (2017): "High-Throughput Mapping of 2'-O-Me Residues in RNA Using 
+#' Next-Generation Sequencing (Illumina RiboMethSeq Protocol)." Methods in 
+#' molecular biology (Clifton, N.J.) 1562, P. 171–187. DOI: 
+#' \href{https://doi.org/10.1007/978-1-4939-6807-7_12}{10.1007/978-1-4939-6807-7_12}.
 NULL
 
 #' @rdname ModRiboMethSeq
@@ -60,6 +96,36 @@ setClass("ModRiboMethSeq",
                           dataType = "ProtectedEndSequenceData"))
 
 # settings ---------------------------------------------------------------------
+
+#' @name ModRiboMethSeq-functions
+#' @aliases aggregate modify settings visualizeData visualizeDataByCoord
+#' 
+#' @title Functions for ModRiboMethSeq
+#' 
+#' @description
+#' All of the functions of \code{\link[RNAmodR:Modifier]{Modifier}} and the
+#' \code{\link[RNAmodR:Modifier]{ModifierSet}} classes are inherited by the 
+#' \code{ModRiboMethSeq} and \code{ModSetRiboMethSeq} classes.
+#' 
+#' @param x a \code{\link[RNAmodR:Modifier]{Modifier}} or a 
+#' \code{\link[RNAmodR:ModifierSet]{ModifierSet}} object. For more details see 
+#' also the man pages for the functions mentioned below.
+#' @param value See \code{\link[RNAmodR:modifierType]{settings}}
+#' @param force See \code{\link[RNAmodR:aggregateData]{aggregate}}
+#' @param coord,name,from,to,type,window.size,... See 
+#' \code{\link[RNAmodR:visualizeDataByCoord]{visualizeData}}
+#' 
+#' @details 
+#' \code{ModRiboMethSeq} specific arguments for \link{visualizeData}:
+#' \itemize{
+#' \item{\code{colour} - }{a named character vector of \code{length = 4} 
+#' for the colours of the individual histograms. The names are expected to be 
+#' \code{c("ends","scoreA","scoreB","scoreRMS")}}
+#' }
+#' 
+#' @importMethodsFrom RNAmodR modify aggregate settings visualizeData 
+#' visualizeDataByCoord
+NULL
 
 .valid_rms_weights <- function(weights){
   if(!is.numeric(weights) | !is.atomic(weights)){
@@ -149,7 +215,7 @@ setClass("ModRiboMethSeq",
   args
 }
 
-#' @name ModRiboMethSeq
+#' @rdname ModRiboMethSeq-functions
 #' @export
 setReplaceMethod(f = "settings", 
                  signature = signature(x = "ModRiboMethSeq"),
@@ -159,6 +225,7 @@ setReplaceMethod(f = "settings",
                    x@arguments[names(value)] <- unname(value)
                    x
                  })
+
 
 # constructor ------------------------------------------------------------------
 
@@ -170,8 +237,8 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
                      sequences = sequences, seqinfo = seqinfo, ...)
 }
 
-# functions --------------------------------------------------------------------
 
+# functions --------------------------------------------------------------------
 
 # calculates score A according to Birkedal et al. 2015
 # it is simplified to use the mean/sd for the neighboring positions
@@ -237,7 +304,6 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
 # .calculate_ribometh_score_max <- compiler::cmpfun(.calculate_ribometh_score_max_c)
 
 
-
 # RiboMeth scores --------------------------------------------------------------
 
 # calculates score A according to Birkedal et al. 2015
@@ -256,7 +322,7 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
     lapply(n,
            function(j){
              unlist(lapply(countsL[[j]],
-                           sd,
+                           BiocGenerics::sd,
                            na.rm = TRUE))
            }))
   countsSdL[is.na(countsSdL)] <- 0
@@ -271,7 +337,7 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
     lapply(n,
            function(j){
              unlist(lapply(countsR[[j]],
-                           sd,
+                           BiocGenerics::sd,
                            na.rm = TRUE))
            }))
   countsSdR[is.na(countsSdR)] <- 0
@@ -472,7 +538,7 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
   ans
 }
 
-#' @name ModRiboMethSeq
+#' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
   f = "aggregate", 
@@ -545,7 +611,7 @@ setMethod(
   unname(unlist(modifications))
 }
 
-#' @rdname ModRiboMethSeq
+#' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod("modify",
           signature = c(x = "ModRiboMethSeq"),
@@ -558,6 +624,7 @@ setMethod("modify",
             x
           }
 )
+
 
 # ModSetRiboMethSeq ------------------------------------------------------------
 

@@ -1,5 +1,6 @@
 ^RNAmodR\.Rproj$
 ^\.Rproj\.user$
+.Rproj
 .bam
 .bai
 .gff

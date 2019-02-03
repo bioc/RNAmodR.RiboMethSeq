@@ -1,6 +1,6 @@
 Package: RNAmodR.RiboMethSeq
 Title: RNAmodR.RiboMethSeq: detection of 2'-O methylations by RiboMethSeq
-Version: 0.0.1
+Version: 0.98.0
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
                     email = "felix.gm.ernst@outlook.com", 
@@ -19,7 +19,14 @@ Depends:
     RNAmodR
 Imports:
     methods,
-    assertive
+    S4Vectors,
+    BiocGenerics,
+    IRanges,
+    GenomicRanges,
+    GenomicFeatures,
+    Rsamtools,
+    rtracklayer,
+    Gviz
 Suggests:
     BiocStyle,
     knitr,

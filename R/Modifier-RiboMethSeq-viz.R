@@ -14,19 +14,8 @@ RNAMODR_RMS_PLOT_DATA_COLOURS <- c(ends = "#FBB4AE",
                                    scoreA = "#B3CDE3",
                                    scoreB = "#CCEBC5",
                                    scoreRMS = "#DECBE4")
-#' @rdname ModRiboMethSeq
-#' 
-#' @name visualizeData
-#' @details 
-#' \code{ModRiboMethSeq} specific arguments for \link{visualizeData}:
-#' \itemize{
-#' \item{\code{colour} - }{a named character vector of \code{length = 4} 
-#' for the colours of the individual histograms. The names are expected to be 
-#' \code{c("ends","scoreA","scoreB","scoreRMS")}}
-#' }
-NULL
 
-#' @rdname ModRiboMethSeq
+#' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
   f = "visualizeDataByCoord",
@@ -43,7 +32,7 @@ setMethod(
                    ...)
   }
 )
-#' @rdname ModRiboMethSeq
+#' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
   f = "visualizeData",
@@ -64,17 +53,17 @@ setMethod(
                         seqdata = "GRanges",
                         sequence = "XString"),
   definition = function(x, data, seqdata, sequence, args) {
-    n <- ncol(mcols(data))
+    n <- ncol(S4Vectors::mcols(data))
     colour <- args[["colour"]]
     if(is.na(colour) || length(colour) != n){
       colour <- RNAMODR_RMS_PLOT_DATA_COLOURS[seq.int(1,n)]
     }
     if(is.null(names(colour))){
-      names(colour) <- colnames(mcols(data))
+      names(colour) <- colnames(S4Vectors::mcols(data))
     }
     dts <- lapply(seq_len(n),
                   function(i){
-                    column <- colnames(mcols(data)[i])
+                    column <- colnames(S4Vectors::mcols(data)[i])
                     colour <- colour[column]
                     name <- RNAMODR_RMS_PLOT_DATA_NAMES[column]
                     dt <- Gviz::DataTrack(data,
@@ -95,12 +84,12 @@ setMethod(
                     }
                     dt
                   })
-    names(dts) <- colnames(mcols(data))
+    names(dts) <- colnames(S4Vectors::mcols(data))
     dts
   }
 )
 
-#' @rdname ModRiboMethSeq
+#' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
   f = "visualizeDataByCoord",
@@ -118,7 +107,7 @@ setMethod(
                    ...)
   }
 )
-#' @rdname ModRiboMethSeq
+#' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
   f = "visualizeData",
