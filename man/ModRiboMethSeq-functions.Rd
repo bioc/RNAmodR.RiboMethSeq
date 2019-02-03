@@ -43,12 +43,12 @@
 \code{\link[RNAmodR:ModifierSet]{ModifierSet}} object. For more details see 
 also the man pages for the functions mentioned below.}
 
-\item{value}{See \code{\link[RNAmodR:modifierType]{settings}}}
+\item{value}{See \code{\link[RNAmodR:Modifier]{settings}}}
 
-\item{force}{See \code{\link[RNAmodR:aggregateData]{aggregate}}}
+\item{force}{See \code{\link[RNAmodR:aggregate]{aggregate}}}
 
 \item{coord, name, from, to, type, window.size, ...}{See 
-\code{\link[RNAmodR:visualizeDataByCoord]{visualizeData}}}
+\code{\link[RNAmodR:visualizeData]{visualizeData}}}
 }
 \description{
 All of the functions of \code{\link[RNAmodR:Modifier]{Modifier}} and the

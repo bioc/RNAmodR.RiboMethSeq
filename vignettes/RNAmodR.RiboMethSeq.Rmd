@@ -119,7 +119,7 @@ alias <- data.frame(tx_id = "1", name = "5.8S rRNA", stringsAsFactors = FALSE)
 ```
 
 ```{r plot1, fig.cap="Heatmap showing RiboMethSeq scores for 2'-O methylated positions on the 5.8S rRNA."}
-plotCompareByCoord(msrms,coord, alias = alias)
+plotCompareByCoord(msrms, coord, alias = alias)
 ```
 
 Results can also be compared on a sequence level, by selecting specific 

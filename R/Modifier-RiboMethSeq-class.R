@@ -110,10 +110,10 @@ setClass("ModRiboMethSeq",
 #' @param x a \code{\link[RNAmodR:Modifier]{Modifier}} or a 
 #' \code{\link[RNAmodR:ModifierSet]{ModifierSet}} object. For more details see 
 #' also the man pages for the functions mentioned below.
-#' @param value See \code{\link[RNAmodR:modifierType]{settings}}
-#' @param force See \code{\link[RNAmodR:aggregateData]{aggregate}}
+#' @param value See \code{\link[RNAmodR:Modifier]{settings}}
+#' @param force See \code{\link[RNAmodR:aggregate]{aggregate}}
 #' @param coord,name,from,to,type,window.size,... See 
-#' \code{\link[RNAmodR:visualizeDataByCoord]{visualizeData}}
+#' \code{\link[RNAmodR:visualizeData]{visualizeData}}
 #' 
 #' @details 
 #' \code{ModRiboMethSeq} specific arguments for \link{visualizeData}:
