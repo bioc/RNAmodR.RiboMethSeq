@@ -17,8 +17,8 @@ ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA)
 \item{x}{the input which can be of the different types depending on whether
 a \code{ModRiboMethSeq} or a \code{ModSetRiboMethSeq} object is to be 
 constructed. For more information have a look at the documentation of
-the \code{\link[RNAmodR:Modifier]{Modifier}} and 
-\code{\link[RNAmodR:ModifierSet]{ModifierSet}} classes.}
+the \code{\link[RNAmodR:Modifier-class]{Modifier}} and 
+\code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} classes.}
 
 \item{annotation}{annotation data, which must match the information contained
 in the BAM files. This is parameter is only required if \code{x} if not a 

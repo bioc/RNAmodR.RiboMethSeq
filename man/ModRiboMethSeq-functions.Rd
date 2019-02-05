@@ -39,11 +39,11 @@
   to = 30L, type = c("scoreRMS", "ends", "scoreA", "scoreB"), ...)
 }
 \arguments{
-\item{x}{a \code{\link[RNAmodR:Modifier]{Modifier}} or a 
-\code{\link[RNAmodR:ModifierSet]{ModifierSet}} object. For more details see 
-also the man pages for the functions mentioned below.}
+\item{x}{a \code{\link[RNAmodR:Modifier-class]{Modifier}} or a
+\code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} object. For more
+details see also the man pages for the functions mentioned below.}
 
-\item{value}{See \code{\link[RNAmodR:Modifier]{settings}}}
+\item{value}{See \code{\link[RNAmodR:Modifier-class]{settings}}}
 
 \item{force}{See \code{\link[RNAmodR:aggregate]{aggregate}}}
 
@@ -51,9 +51,9 @@ also the man pages for the functions mentioned below.}
 \code{\link[RNAmodR:visualizeData]{visualizeData}}}
 }
 \description{
-All of the functions of \code{\link[RNAmodR:Modifier]{Modifier}} and the
-\code{\link[RNAmodR:Modifier]{ModifierSet}} classes are inherited by the 
-\code{ModRiboMethSeq} and \code{ModSetRiboMethSeq} classes.
+All of the functions of \code{\link[RNAmodR:Modifier-class]{Modifier}} and
+the \code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} classes are
+inherited by the \code{ModRiboMethSeq} and \code{ModSetRiboMethSeq} classes.
 }
 \details{
 \code{ModRiboMethSeq} specific arguments for \link{visualizeData}:

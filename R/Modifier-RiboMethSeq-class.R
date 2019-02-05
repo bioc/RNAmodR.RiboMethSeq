@@ -32,8 +32,8 @@ NULL
 #' @param x the input which can be of the different types depending on whether
 #' a \code{ModRiboMethSeq} or a \code{ModSetRiboMethSeq} object is to be 
 #' constructed. For more information have a look at the documentation of
-#' the \code{\link[RNAmodR:Modifier]{Modifier}} and 
-#' \code{\link[RNAmodR:ModifierSet]{ModifierSet}} classes.
+#' the \code{\link[RNAmodR:Modifier-class]{Modifier}} and 
+#' \code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} classes.
 #' @param annotation annotation data, which must match the information contained
 #' in the BAM files. This is parameter is only required if \code{x} if not a 
 #' \code{Modifier} object.
@@ -114,14 +114,14 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
 #' @title Functions for ModRiboMethSeq
 #' 
 #' @description
-#' All of the functions of \code{\link[RNAmodR:Modifier]{Modifier}} and the
-#' \code{\link[RNAmodR:Modifier]{ModifierSet}} classes are inherited by the 
-#' \code{ModRiboMethSeq} and \code{ModSetRiboMethSeq} classes.
+#' All of the functions of \code{\link[RNAmodR:Modifier-class]{Modifier}} and
+#' the \code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} classes are
+#' inherited by the \code{ModRiboMethSeq} and \code{ModSetRiboMethSeq} classes.
 #' 
-#' @param x a \code{\link[RNAmodR:Modifier]{Modifier}} or a 
-#' \code{\link[RNAmodR:ModifierSet]{ModifierSet}} object. For more details see 
-#' also the man pages for the functions mentioned below.
-#' @param value See \code{\link[RNAmodR:Modifier]{settings}}
+#' @param x a \code{\link[RNAmodR:Modifier-class]{Modifier}} or a
+#' \code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} object. For more
+#' details see also the man pages for the functions mentioned below.
+#' @param value See \code{\link[RNAmodR:Modifier-class]{settings}}
 #' @param force See \code{\link[RNAmodR:aggregate]{aggregate}}
 #' @param coord,name,from,to,type,window.size,... See 
 #' \code{\link[RNAmodR:visualizeData]{visualizeData}}
