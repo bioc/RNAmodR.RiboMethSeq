@@ -42,7 +42,7 @@ setMethod(
     if(missing(type)){
       type <- RNAMODR_RMS_PLOT_DATA
     }
-    callNextMethod(x = x, name, from, to, type = type, ...)
+    callNextMethod(x = x, name = name, from = from, to = to, type = type, ...)
   }
 )
 
@@ -118,6 +118,6 @@ setMethod(
       type <- "scoreRMS"
     }
     type <- match.arg(type,c("scoreRMS","ends","scoreA","scoreB"))
-    callNextMethod(x = x, name, from, to, type = type, ...)
+    callNextMethod(x = x, name = name, from = from, to = to, type = type, ...)
   }
 )

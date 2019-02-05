@@ -1,1 +1,2 @@
-# modRNA-RiboMethSeq
+# RNAmodR.RiboMethSeq
+

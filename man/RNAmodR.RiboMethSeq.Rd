@@ -11,8 +11,8 @@ RiboMethSeq data using the workflow and class the package `RNAmodR` provides.
 }
 \seealso{
 Further details are described in the man pages of the 
-\code{\link{Modifier}} object and the vignettes.
+\code{\link[RNAmodR:Modifier-class]{Modifier}} object and the vignettes.
 }
 \author{
-Felix G M Ernst [aut], Denis L.J Lafontaine [fnd]
+Felix G M Ernst [aut], Denis L J Lafontaine [fnd]
 }

@@ -7,7 +7,7 @@
 \alias{ModSetRiboMethSeq}
 \alias{ModRiboMethSeq-class}
 \alias{ModSetRiboMethSeq-class}
-\title{ModRiboMethSeq}
+\title{ModRiboMethSeq class to analyze RiboMethSeq data}
 \usage{
 ModRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA, ...)
 
@@ -35,30 +35,30 @@ sequences to be analyzed on a per chromosome basis.}
 \item{...}{Optional arguments overwriting default values, which are
 \itemize{
 \item{weights:} {The weights used for calculating the scores B and RMS 
-(default: \code{weights = c(0.9,1,0,1,0.9)})}
+(default: \code{weights = c(0.9,1,0,1,0.9)}).}
 \item{flankingRegion:} {The size of the flanking region used for calculation 
-of score A as an integer value (default: \code{flankingRegion = 6L})}
-\item{minSignal:} {The minimal singal at the position as integer value 
+of score A as an integer value (default: \code{flankingRegion = 6L}).}
+\item{minSignal:} {The minimal signal at the position as integer value 
 (default: \code{minSignal = 10L}). If the reaction is very specific a lower
-value and even 0L may need to be used}
+value and even 0L may need to be used.}
 \item{minScoreA:} {minimum for score A to identify 2'-O methylated positions 
-de novo (default: \code{minScoreA = 0.6})}
+de novo (default: \code{minScoreA = 0.6}).}
 \item{minScoreB:} {minimum for score B to identify 2'-O methylated positions 
-de novo (default: \code{minScoreB = 3.0})}
+de novo (default: \code{minScoreB = 3.0}).}
 \item{minScoreRMS:} {minimum for score RMS to identify 2'-O methylated 
-positions de novo (default: \code{minScoreRMS = 0.75})}
+positions de novo (default: \code{minScoreRMS = 0.75}).}
 \item{scoreOperator:} {how the minimal score should be used as logical 
 operator. "&" requires all minimal values to be exceeded, whereas "|" detects
 positions, if at least one minimal values is exceeded (default: 
-\code{scoreOperator = "|"})}
+\code{scoreOperator = "&"}).}
 \item{maxLength:} {The default read length. Reads with this length or longer
 are discarded, since they represent non-fragemented reads. This might need to
 be adjusted for individual samples dending on the experimental conditions.
 This is argument is passed on to 
 \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
-(default: \code{maxLength = 50L})}
-\item{other arguments}{which are passed on to 
-\code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}}
+(default: \code{maxLength = 50L}).}
+\item{other arguments} {which are passed on to 
+\code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}.}
 }
 To disable minimal values for modification calling, set them to \code{0}.
 It is not advised to set them all to \code{0}.}
@@ -98,5 +98,5 @@ molecular biology (Clifton, N.J.) 1562, P. 171–187. DOI:
 \href{https://doi.org/10.1007/978-1-4939-6807-7_12}{10.1007/978-1-4939-6807-7_12}.
 }
 \author{
-Felix G.M. Ernst
+Felix G.M. Ernst [aut]
 }
