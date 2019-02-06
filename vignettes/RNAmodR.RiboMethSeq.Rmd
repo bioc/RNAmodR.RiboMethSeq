@@ -61,8 +61,8 @@ or a `TxDb` object and for sequence data a fasta file or a `BSgenome` object can
 be used. The data is provided as bam files.
 
 ```{r}
-gff <- GFF3File(system.file("extdata","example_RMS.gff3",package = "RNAmodR.Data"))
-fasta <- FaFile(system.file("extdata","example_RMS.fasta",package = "RNAmodR.Data"))
+annotation <- GFF3File(system.file("extdata","example_RMS.gff3",package = "RNAmodR.Data"))
+sequences <- FaFile(system.file("extdata","example_RMS.fasta",package = "RNAmodR.Data"))
 files <- list("Sample1" = c(treated = system.file("extdata","example_RMS1.bam",package = "RNAmodR.Data")),
               "Sample2" = c(treated = system.file("extdata","example_RMS2.bam",package = "RNAmodR.Data")))
 ```
@@ -75,7 +75,9 @@ allow optimization depending on number/size of input files (number of samples,
 number of replicates, number of transcripts, etc).
 
 ```{r}
-msrms <- ModSetRiboMethSeq(files, annotation = gff, sequences = fasta)
+msrms <- ModSetRiboMethSeq(files,
+                           annotation = annotation,
+                           sequences = sequences)
 ```
 
 # Visualizing the results
