@@ -12,6 +12,7 @@
 \alias{settings<-,ModRiboMethSeq-method}
 \alias{aggregate,ModRiboMethSeq-method}
 \alias{modify,ModRiboMethSeq-method}
+\alias{getDataTrack,ModRiboMethSeq-method}
 \alias{visualizeDataByCoord,ModRiboMethSeq,GRanges-method}
 \alias{visualizeData,ModRiboMethSeq-method}
 \alias{visualizeDataByCoord,ModSetRiboMethSeq,GRanges-method}
@@ -23,6 +24,8 @@
 \S4method{aggregate}{ModRiboMethSeq}(x, force = FALSE)
 
 \S4method{modify}{ModRiboMethSeq}(x, force = FALSE)
+
+\S4method{getDataTrack}{ModRiboMethSeq}(x, name, type, ...)
 
 \S4method{visualizeDataByCoord}{ModRiboMethSeq,GRanges}(x, coord,
   type = c("ends", "scoreA", "scoreB", "scoreRMS", "scoreMean"),

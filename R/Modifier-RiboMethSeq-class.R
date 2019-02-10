@@ -702,9 +702,9 @@ setMethod(
       m <- m[!is.na(m$scoreA) &
                !is.na(m$scoreB) &
                !is.na(m$scoreRMS) &
-               !is.na(m$scoreMean),]
+               !is.na(m$scoreMean),,drop=FALSE]
       if(nrow(m) == 0L) return(NULL)
-      m <- m[m$ends >= minSignal,]
+      m <- m[m$ends >= minSignal,,drop=FALSE]
       if(nrow(m) == 0L) return(NULL)
       logical <- data.frame(m$scoreA >= minScoreA,
                             m$scoreB >= minScoreB,
@@ -713,7 +713,7 @@ setMethod(
       m <- m[mapply(Reduce,
                     rep(scoreOperator,nrow(m)),
                     lapply(seq_len(nrow(m)),function(i){logical[i,]}),
-                    SIMPLIFY = TRUE),]
+                    SIMPLIFY = TRUE),,drop=FALSE]
       if(nrow(m) == 0L) return(NULL)
       ans <- RNAmodR::.constructModRanges(
         r,

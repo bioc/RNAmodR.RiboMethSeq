@@ -22,6 +22,8 @@ test_that("RiboMethSeq:",{
                         "minScoreA",
                         "minScoreB",
                         "minScoreRMS",
+                        "minScoreMean",
+                        "flankingRegionMean",
                         "scoreOperator"))
   expect_error(RNAmodR.RiboMethSeq:::.norm_rms_args(list(weights = c(1,1,0,1))))
   expect_error(RNAmodR.RiboMethSeq:::.norm_rms_args(list(minSignal = 10)))
@@ -34,7 +36,7 @@ test_that("RiboMethSeq:",{
   expect_equal(RNAmodR.RiboMethSeq:::.norm_rms_args(list(flankingRegion = 6L)),
                actual)
   expect_error(RNAmodR.RiboMethSeq:::.norm_rms_args(list(minScoreB = "a")))
-  expect_equal(RNAmodR.RiboMethSeq:::.norm_rms_args(list(minScoreB = 4.0)),
+  expect_equal(RNAmodR.RiboMethSeq:::.norm_rms_args(list(minScoreB = 3.6)),
                actual)
   expect_error(RNAmodR.RiboMethSeq:::.norm_rms_args(list(minScoreRMS = 2L)))
   expect_equal(RNAmodR.RiboMethSeq:::.norm_rms_args(list(minScoreRMS = 0.75)),

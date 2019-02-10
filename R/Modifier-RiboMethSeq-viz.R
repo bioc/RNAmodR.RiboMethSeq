@@ -37,6 +37,8 @@ RNAMODR_RMS_PLOT_DATA_COLOURS <- c(ends = "#FBB4AE",
   input
 }
 
+#' @rdname ModRiboMethSeq-functions
+#' @export
 setMethod(
   f = "getDataTrack",
   signature = signature(x = "ModRiboMethSeq"),
