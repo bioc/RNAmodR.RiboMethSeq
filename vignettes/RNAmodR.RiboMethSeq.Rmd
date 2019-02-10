@@ -35,8 +35,8 @@ is used to detect and score the2'-O methylations.
 
 The `ModRiboMethSeq` class uses the the `ProtectedEndSequenceData` class to
 store and aggregate data along the transcripts. The calculated scores follow the
-nomenclature of [@Birkedal.2015](#References) with the names `scoreRMS`
-(default), `scoreA` and `scoreB`.
+nomenclature of [@Birkedal.2015,@Galvanin2019](#References) with the names `scoreRMS`
+(default), `scoreA`, `scoreB` and `scoreMean`.
 
 ```{r, echo = FALSE}
 suppressPackageStartupMessages({
@@ -75,9 +75,8 @@ allow optimization depending on number/size of input files (number of samples,
 number of replicates, number of transcripts, etc).
 
 ```{r}
-msrms <- ModSetRiboMethSeq(files,
-                           annotation = annotation,
-                           sequences = sequences)
+msrms <- ModSetRiboMethSeq(files, annotation = annotation, sequences = sequences)
+msrms
 ```
 
 # Visualizing the results
@@ -87,10 +86,11 @@ comparison. This can either be done by aggregating the detect over all samples
 and use the union or intersect or by using publish data. We want to assemble
 a GRanges object from the latter. 
 
-In this specific example we just assemble information for the 5.8S RNA. The
-information regarding the parent and seqname must match the information used
-as the annotation data. Check that it matches the output of `ranges()` on a
-`SequenceData`, `Modifier` oder `ModifierSet` object.
+In this specific example only information for the 5.8S RNA is used, since the
+example data would be to big otherwise. The information regarding the parent and
+seqname must match the information used as the annotation data. Check that it
+matches the output of `ranges()` on a `SequenceData`, `Modifier` oder
+`ModifierSet` object.
 
 ```{r}
 table <- read.csv2(system.file("extdata","snoRNAdb.csv",
@@ -121,23 +121,42 @@ alias <- data.frame(tx_id = "1", name = "5.8S rRNA", stringsAsFactors = FALSE)
 ```
 
 ```{r plot1, fig.cap="Heatmap showing RiboMethSeq scores for 2'-O methylated positions on the 5.8S rRNA."}
-plotCompareByCoord(msrms, coord, alias = alias)
+plotCompareByCoord(msrms[c(2,1)], coord, alias = alias)
 ```
 
 Results can also be compared on a sequence level, by selecting specific 
 coordinates to compare.
 
-```{r, plot2, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA."}
+```{r, plot2, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA.", fig.asp=1}
 singleCoord <- coord[[1]][1,]
 visualizeDataByCoord(msrms, singleCoord)
 ```
 
-```{r, plot3, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA in Sample1."}
-visualizeDataByCoord(msrms[[1]], singleCoord)
+By default only the RiboMethSeq score and the ScoreMean are shown.
+
+# Performance
+
+To access the performance of the method in combination with samples used, use
+the `plotROC` function.
+
+```{r plot4, fig.cap="TPR vs. FPR plot.", fig.asp=1}
+plotROC(msrms,coord)
 ```
 
-```{r, plot4, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA in Sample2."}
-visualizeDataByCoord(msrms[[2]], singleCoord)
+The example given here should be regarded as a proof of concept. Based on the
+results, minimal scores for calling modified positions can be adjusted to the
+individual requirements.
+
+```{r settings}
+settings(msrms) <- list(minScoreMean = 0.7)
+msrms
+```
+
+As the warning suggested, after modifying the settings the results should be 
+updated by running `modify(x,force = TRUE)`.
+
+```{r udpate}
+msrms2 <- modify(msrms,force = TRUE)
 ```
 
 # Session info

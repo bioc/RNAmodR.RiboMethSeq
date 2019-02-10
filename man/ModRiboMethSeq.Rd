@@ -6,12 +6,17 @@
 \alias{RiboMethSeq}
 \alias{ModSetRiboMethSeq}
 \alias{ModRiboMethSeq-class}
+\alias{ModRiboMethSeq5-class}
 \alias{ModSetRiboMethSeq-class}
+\alias{ModSetRiboMethSeq5-class}
+\alias{ModSetRiboMethSeq5}
 \title{ModRiboMethSeq class to analyze RiboMethSeq data}
 \usage{
 ModRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA, ...)
 
 ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA)
+
+ModSetRiboMethSeq5(x, annotation = NA, sequences = NA, seqinfo = NA)
 }
 \arguments{
 \item{x}{the input which can be of the different types depending on whether
@@ -47,6 +52,11 @@ de novo (default: \code{minScoreA = 0.6}).}
 de novo (default: \code{minScoreB = 3.0}).}
 \item{minScoreRMS:} {minimum for score RMS to identify 2'-O methylated 
 positions de novo (default: \code{minScoreRMS = 0.75}).}
+\item{minScoreMean:} {minimum for ScoreMean to identify 2'-O methylated 
+positions de novo (default: \code{minScoreMean = 0.75}).}
+\item{flankingRegionMean:} {The size of the flanking region used for 
+calculation of ScoreMean as an integer value (default: 
+\code{flankingRegionMean = 2L}).}
 \item{scoreOperator:} {how the minimal score should be used as logical 
 operator. "&" requires all minimal values to be exceeded, whereas "|" detects
 positions, if at least one minimal values is exceeded (default: 
@@ -64,6 +74,7 @@ To disable minimal values for modification calling, set them to \code{0}.
 It is not advised to set them all to \code{0}.}
 }
 \description{
+title
 Among the various post-transcriptional RNA modifications, 2'-O methylations
 are quite common in rRNA and tRNA. They confere resistance to alkaline 
 degradation by preventing a nucleophilic attack on the 3'-phosphate 
@@ -79,10 +90,24 @@ The \code{ModRiboMethSeq} class uses the the
 \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
 class to store and aggregate data along the transcripts. The calculated 
 scores follow the nomenclature of Birkedahl et al. (2015) with the names
-\code{scoreRMS} (default), \code{scoreA} and \code{scoreB}.
+\code{scoreRMS} (default), \code{scoreA}, \code{scoreB} and \code{scoreMean}.
 
-The score MAX as described by Marchand et al. (2017) are not implemented, 
+The ScoreMax as described by Marchand et al. (2017) are not implemented, 
 yet, since an unambigeous description is not available from the literature.
+
+The ScoreMean as described by Galvanin et al. (2018) is implemented. However,
+use with caution, since the description is not unambigeous. Currently it is
+calculated as as: 1 - (n / mean(areaL + areaR)). (n: counts at position, 
+areaL: counts from x position upstream, areaR: counts from x position 
+downstream)
+
+Only samples named \code{treated} are used for this analysis. Normalization 
+to untreated samples is currently not used.
+
+The \code{ModRiboMethSeq5} class can be used as well. However, as 
+\code{SequenceData} the 
+\code{\link[RNAmodR:EndSequenceData]{End5SequenceData}} is employed using
+only the 5'-end positions of reads.
 }
 \references{
 - Birkedal U, Christensen-Dalsgaard M, Krogh N, Sabarinathan R, Gorodkin J, 
@@ -96,6 +121,12 @@ P. 451–455. DOI:
 Next-Generation Sequencing (Illumina RiboMethSeq Protocol)." Methods in 
 molecular biology (Clifton, N.J.) 1562, P. 171–187. DOI: 
 \href{https://doi.org/10.1007/978-1-4939-6807-7_12}{10.1007/978-1-4939-6807-7_12}.
+
+- Galvanin A, Ayadi L, Helm M, Motorin Y, Marchand V (2017): "Mapping and 
+Quantification of tRNA 2′-O-Methylation by RiboMethSeq". Wajapeyee N., Gupta
+R. (eds) Epitranscriptomics. Methods in Molecular Biology (Humana Press, 
+New York, NY) 1870, P. 273-295. DOI: 
+\href{https://doi.org/10.1007/978-1-4939-8808-2_21}{10.1007/978-1-4939-8808-2_21}
 }
 \author{
 Felix G.M. Ernst [aut]

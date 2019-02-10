@@ -2,8 +2,11 @@
 
 export(ModRiboMethSeq)
 export(ModSetRiboMethSeq)
+export(ModSetRiboMethSeq5)
 exportClasses(ModRiboMethSeq)
+exportClasses(ModRiboMethSeq5)
 exportClasses(ModSetRiboMethSeq)
+exportClasses(ModSetRiboMethSeq5)
 exportMethods("settings<-")
 exportMethods(aggregate)
 exportMethods(modify)

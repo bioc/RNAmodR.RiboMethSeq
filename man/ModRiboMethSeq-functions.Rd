@@ -25,18 +25,19 @@
 \S4method{modify}{ModRiboMethSeq}(x, force = FALSE)
 
 \S4method{visualizeDataByCoord}{ModRiboMethSeq,GRanges}(x, coord,
-  type = c("ends", "scoreA", "scoreB", "scoreRMS"), window.size = 15L,
-  ...)
+  type = c("ends", "scoreA", "scoreB", "scoreRMS", "scoreMean"),
+  window.size = 15L, ...)
 
 \S4method{visualizeData}{ModRiboMethSeq}(x, name, from = 1L, to = 30L,
-  type = c("ends", "scoreA", "scoreB", "scoreRMS"), ...)
+  type = c("ends", "scoreA", "scoreB", "scoreRMS", "scoreMean"), ...)
 
 \S4method{visualizeDataByCoord}{ModSetRiboMethSeq,GRanges}(x, coord,
-  type = c("scoreRMS", "ends", "scoreA", "scoreB"), window.size = 15L,
-  ...)
+  type = c("scoreRMS", "ends", "scoreA", "scoreB", "scoreMean"),
+  window.size = 15L, ...)
 
 \S4method{visualizeData}{ModSetRiboMethSeq}(x, name, from = 1L,
-  to = 30L, type = c("scoreRMS", "ends", "scoreA", "scoreB"), ...)
+  to = 30L, type = c("scoreRMS", "ends", "scoreA", "scoreB",
+  "scoreMean"), ...)
 }
 \arguments{
 \item{x}{a \code{\link[RNAmodR:Modifier-class]{Modifier}} or a
@@ -56,10 +57,11 @@ the \code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} classes are
 inherited by the \code{ModRiboMethSeq} and \code{ModSetRiboMethSeq} classes.
 }
 \details{
-\code{ModRiboMethSeq} specific arguments for \link{visualizeData}:
+\code{ModRiboMethSeq} specific arguments for 
+\code{\link[RNAmodR:visualizeData]{visualizeData}}:
 \itemize{
 \item{\code{colour} - }{a named character vector of \code{length = 4} 
 for the colours of the individual histograms. The names are expected to be 
-\code{c("ends","scoreA","scoreB","scoreRMS")}}
+\code{c("ends","scoreA","scoreB","scoreRMS","scoreMean")}}
 }
 }

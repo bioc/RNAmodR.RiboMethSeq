@@ -9,6 +9,7 @@ NULL
 #' @title ModRiboMethSeq class to analyze RiboMethSeq data
 #' 
 #' @description 
+#' title
 #' Among the various post-transcriptional RNA modifications, 2'-O methylations
 #' are quite common in rRNA and tRNA. They confere resistance to alkaline 
 #' degradation by preventing a nucleophilic attack on the 3'-phosphate 
@@ -24,13 +25,24 @@ NULL
 #' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
 #' class to store and aggregate data along the transcripts. The calculated 
 #' scores follow the nomenclature of Birkedahl et al. (2015) with the names
-#' \code{scoreRMS} (default), \code{scoreA} and \code{scoreB}.
+#' \code{scoreRMS} (default), \code{scoreA}, \code{scoreB} and \code{scoreMean}.
 #' 
-#' The score MAX as described by Marchand et al. (2017) are not implemented, 
+#' The ScoreMax as described by Marchand et al. (2017) are not implemented, 
 #' yet, since an unambigeous description is not available from the literature.
+#' 
+#' The ScoreMean as described by Galvanin et al. (2018) is implemented. However,
+#' use with caution, since the description is not unambigeous. Currently it is
+#' calculated as as: 1 - (n / mean(areaL + areaR)). (n: counts at position, 
+#' areaL: counts from x position upstream, areaR: counts from x position 
+#' downstream)
 #' 
 #' Only samples named \code{treated} are used for this analysis. Normalization 
 #' to untreated samples is currently not used.
+#' 
+#' The \code{ModRiboMethSeq5} class can be used as well. However, as 
+#' \code{SequenceData} the 
+#' \code{\link[RNAmodR:EndSequenceData]{End5SequenceData}} is employed using
+#' only the 5'-end positions of reads.
 #' 
 #' @param x the input which can be of the different types depending on whether
 #' a \code{ModRiboMethSeq} or a \code{ModSetRiboMethSeq} object is to be 
@@ -61,6 +73,11 @@ NULL
 #' de novo (default: \code{minScoreB = 3.0}).}
 #' \item{minScoreRMS:} {minimum for score RMS to identify 2'-O methylated 
 #' positions de novo (default: \code{minScoreRMS = 0.75}).}
+#' \item{minScoreMean:} {minimum for ScoreMean to identify 2'-O methylated 
+#' positions de novo (default: \code{minScoreMean = 0.75}).}
+#' \item{flankingRegionMean:} {The size of the flanking region used for 
+#' calculation of ScoreMean as an integer value (default: 
+#' \code{flankingRegionMean = 2L}).}
 #' \item{scoreOperator:} {how the minimal score should be used as logical 
 #' operator. "&" requires all minimal values to be exceeded, whereas "|" detects
 #' positions, if at least one minimal values is exceeded (default: 
@@ -89,6 +106,12 @@ NULL
 #' Next-Generation Sequencing (Illumina RiboMethSeq Protocol)." Methods in 
 #' molecular biology (Clifton, N.J.) 1562, P. 171–187. DOI: 
 #' \href{https://doi.org/10.1007/978-1-4939-6807-7_12}{10.1007/978-1-4939-6807-7_12}.
+#' 
+#' - Galvanin A, Ayadi L, Helm M, Motorin Y, Marchand V (2017): "Mapping and 
+#' Quantification of tRNA 2′-O-Methylation by RiboMethSeq". Wajapeyee N., Gupta
+#' R. (eds) Epitranscriptomics. Methods in Molecular Biology (Humana Press, 
+#' New York, NY) 1870, P. 273-295. DOI: 
+#' \href{https://doi.org/10.1007/978-1-4939-8808-2_21}{10.1007/978-1-4939-8808-2_21}
 NULL
 
 #' @rdname ModRiboMethSeq
@@ -98,6 +121,16 @@ setClass("ModRiboMethSeq",
          prototype = list(mod = c("Am","Cm","Gm","Um"),
                           score = "scoreRMS",
                           dataType = "ProtectedEndSequenceData"))
+
+
+#' @rdname ModRiboMethSeq
+#' @export
+setClass("ModRiboMethSeq5",
+         contains = c("ModRiboMethSeq"),
+         prototype = list(mod = c("Am","Cm","Gm","Um"),
+                          score = "scoreRMS",
+                          dataType = "End5SequenceData"))
+
 
 # constructor ------------------------------------------------------------------
 
@@ -130,11 +163,12 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
 #' \code{\link[RNAmodR:visualizeData]{visualizeData}}
 #' 
 #' @details 
-#' \code{ModRiboMethSeq} specific arguments for \link{visualizeData}:
+#' \code{ModRiboMethSeq} specific arguments for 
+#' \code{\link[RNAmodR:visualizeData]{visualizeData}}:
 #' \itemize{
 #' \item{\code{colour} - }{a named character vector of \code{length = 4} 
 #' for the colours of the individual histograms. The names are expected to be 
-#' \code{c("ends","scoreA","scoreB","scoreRMS")}}
+#' \code{c("ends","scoreA","scoreB","scoreRMS","scoreMean")}}
 #' }
 #' 
 #' @importMethodsFrom RNAmodR modify aggregate settings visualizeData 
@@ -162,8 +196,10 @@ NULL
   minSignal <- 10L # for all scores
   flankingRegion <- 6L # for score A
   minScoreA <- 0.6 # for score A
-  minScoreB <- 4.0 # for score B
+  minScoreB <- 3.6 # for score B
   minScoreRMS <- 0.75 # for score C/RMS
+  minScoreMean <- 0.75 # for ScoreMean
+  flankingRegionMean <- 2L # for ScoreMean
   weights <- c(0.9,1,0,1,0.9) # for score B/C/RMS
   scoreOperator <- "&"
   if(!is.null(input[["weights"]])){
@@ -209,6 +245,20 @@ NULL
            call. = FALSE)
     }
   }
+  if(!is.null(input[["minScoreMean"]])){
+    minScoreMean <- input[["minScoreMean"]]
+    if(!is.numeric(minScoreMean) | minScoreMean < 0 | minScoreMean > 1){
+      stop("'minScoreMean' must be numeric with a value between 0 and 1.",
+           call. = FALSE)
+    }
+  }
+  if(!is.null(input[["flankingRegionMean"]])){
+    flankingRegionMean <- input[["flankingRegionMean"]]
+    if(!is.integer(flankingRegionMean) | flankingRegionMean < 1L){
+      stop("'flankingRegionMean' must be integer with a value higher than 0L.",
+           call. = FALSE)
+    }
+  }
   if(!is.null(input[["scoreOperator"]])){
     scoreOperator <- input[["scoreOperator"]]
     if(!(scoreOperator %in% c("|","&"))){
@@ -225,6 +275,8 @@ NULL
                  minScoreA = minScoreA,
                  minScoreB = minScoreB,
                  minScoreRMS = minScoreRMS,
+                 minScoreMean = minScoreMean,
+                 flankingRegionMean = flankingRegionMean,
                  scoreOperator = scoreOperator))
   args
 }
@@ -297,6 +349,16 @@ setReplaceMethod(f = "settings",
 }
 .calculate_ribometh_score_meth <- compiler::cmpfun(.calculate_ribometh_score_meth_c)
 
+# calculates score MAX according to Galvanin et al. 2018
+.calculate_ribometh_score_mean_c <- function(n,
+                                             mean){
+  ans <- 1 - (n / mean)
+  ans <- vapply(ans,max,numeric(1),0)
+  ans[is.na(ans)] <- 0
+  return(ans)
+}
+.calculate_ribometh_score_mean <- compiler::cmpfun(.calculate_ribometh_score_mean_c)
+
 # calculates score MAX according to Marchand et al. 2016
 # not used since no clear description available in the literature
 # .calculate_ribometh_score_max_c <- function(n,
@@ -313,6 +375,7 @@ setReplaceMethod(f = "settings",
 .get_score_A <- function(data,
                          countsL,
                          countsR){
+  # replicates
   n <- seq_along(data)
   countsMeanL <- IRanges::NumericList(
     lapply(n,
@@ -384,7 +447,31 @@ setReplaceMethod(f = "settings",
   return(scoreMeth)
 }
 
-# calculates score C according to Marchand et al. 
+# calculates ScoreMean according to Galvanin et al. 2018
+.get_score_mean <- function(data,
+                            countsL,
+                            countsR){
+  # replicates
+  n <- seq_along(data)
+  countsMean <- lapply(n,
+                       function(j){
+                         pc(countsL[[j]],countsR[[j]])
+                       })
+  countsMean <- IRanges::NumericList(
+    lapply(n,
+           function(j){
+             unlist(lapply(countsMean[[j]],
+                           mean,
+                           na.rm = TRUE))
+           }))
+  # calc score per replicate
+  scoreMean <- IRanges::NumericList(mapply(FUN = .calculate_ribometh_score_mean,
+                                           data,
+                                           countsMean))
+  return(scoreMean)
+}
+
+# calculates score C according to Marchand et al. 2016
 # .get_score_max <- function(data,
 #                            countsL,
 #                            weightsL,
@@ -438,12 +525,15 @@ setReplaceMethod(f = "settings",
   lengths <- S4Vectors::lengths(mod)
   pos <- lapply(lengths,seq_len)
   flankingRegion <- settings(x,"flankingRegion")
+  flankingRegionMean <- settings(x,"flankingRegionMean")
   positionsR <- seq_len(flankingRegion)
   positionsL <- rev(positionsR) * -1
+  positionsRMean <- seq_len(flankingRegionMean)
+  positionsLMean <- rev(positionsRMean) * -1
   weightPositionsL <- weightPositions[weightPositions < 0]
   weightPositionsR <- weightPositions[weightPositions > 0]
   weightPositionsC <- which(weightPositions == 0)
-  # subset to neightbouring positions based on the size of flankingRegions
+  # subset to neightbouring positions based on the size of flankingRegion
   neighborCountsLFR <- 
     lapply(nV,
            function(j){
@@ -461,6 +551,30 @@ setReplaceMethod(f = "settings",
              IRanges::IntegerList(lapply(pos[[j]],
                                          function(k){
                                            f <- positionsR + k
+                                           ans <- means[[j]][f[f > 0]]
+                                           ans <- ans[!is.na(ans)]
+                                           ans
+                                         }))
+           })
+  
+  # subset to neightbouring positions based on the size of flankingRegionMean
+  neighborCountsLFRMean <- 
+    lapply(nV,
+           function(j){
+             IRanges::IntegerList(lapply(pos[[j]],
+                                         function(k){
+                                           f <- positionsLMean + k
+                                           ans <- means[[j]][f[f > 0]]
+                                           ans <- ans[!is.na(ans)]
+                                           ans
+                                         }))
+           })
+  neighborCountsRFRMean <- 
+    lapply(nV,
+           function(j){
+             IRanges::IntegerList(lapply(pos[[j]],
+                                         function(k){
+                                           f <- positionsRMean + k
                                            ans <- means[[j]][f[f > 0]]
                                            ans <- ans[!is.na(ans)]
                                            ans
@@ -530,11 +644,15 @@ setReplaceMethod(f = "settings",
                               weightsListL,
                               neighborCountsR,
                               weightsListR)
+  scoreMean <- .get_score_mean(means,
+                               neighborCountsLFRMean,
+                               neighborCountsRFRMean)
   # scoreMAX <- .get_score_max()
   ans <- S4Vectors::DataFrame(ends = unlist(means),
                               scoreA = unlist(scoreA),
                               scoreB = unlist(scoreB),
                               scoreRMS = unlist(scoreRMS),
+                              scoreMean = unlist(scoreMean),
                               row.names = NULL)
   ans <- IRanges::SplitDataFrameList(ans)
   ans@partitioning <- mod@partitioning
@@ -562,7 +680,8 @@ setMethod(
 .get_rms_scores <- function(data){
   list(score = data$scoreRMS,
        scoreA = data$scoreA,
-       scoreB = data$scoreB)
+       scoreB = data$scoreB,
+       scoreMean = data$scoreMean)
 }
 
 .find_rms <- function(x){
@@ -575,22 +694,26 @@ setMethod(
   minScoreA <- settings(x,"minScoreA")
   minScoreB <- settings(x,"minScoreB")
   minScoreRMS <- settings(x,"minScoreRMS")
+  minScoreMean <- settings(x,"minScoreMean")
   scoreOperator <- settings(x,"scoreOperator")
   # find modifications
   modifications <- mapply(
     function(m,l,r){
-      rownames(m) <- seq_len(BiocGenerics::width(r))
       m <- m[!is.na(m$scoreA) &
                !is.na(m$scoreB) &
-               !is.na(m$scoreRMS),]
+               !is.na(m$scoreRMS) &
+               !is.na(m$scoreMean),]
       if(nrow(m) == 0L) return(NULL)
       m <- m[m$ends >= minSignal,]
       if(nrow(m) == 0L) return(NULL)
+      logical <- data.frame(m$scoreA >= minScoreA,
+                            m$scoreB >= minScoreB,
+                            m$scoreRMS >= minScoreRMS,
+                            m$scoreMean >= minScoreMean)
       m <- m[mapply(Reduce,
                     rep(scoreOperator,nrow(m)),
-                    m$scoreA >= minScoreA,
-                    m$scoreB >= minScoreB,
-                    m$scoreRMS >= minScoreRMS),]
+                    lapply(seq_len(nrow(m)),function(i){logical[i,]}),
+                    SIMPLIFY = TRUE),]
       if(nrow(m) == 0L) return(NULL)
       ans <- RNAmodR::.constructModRanges(
         r,
@@ -616,7 +739,7 @@ setMethod(
 #' @export
 setMethod("modify",
           signature = c(x = "ModRiboMethSeq"),
-          function(x, force){
+          function(x, force = FALSE){
             # get the aggregate data
             x <- aggregate(x, force)
             x@modifications <- .find_rms(x)
@@ -639,5 +762,18 @@ setClass("ModSetRiboMethSeq",
 #' @export
 ModSetRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA){
   RNAmodR::ModifierSet("ModRiboMethSeq", x, annotation = annotation,
+                       sequences = sequences, seqinfo = seqinfo)
+}
+
+#' @rdname ModRiboMethSeq
+#' @export
+setClass("ModSetRiboMethSeq5",
+         contains = "ModSetRiboMethSeq",
+         prototype = list(elementType = "ModRiboMethSeq5"))
+
+#' @rdname ModRiboMethSeq
+#' @export
+ModSetRiboMethSeq5 <- function(x, annotation = NA, sequences = NA, seqinfo = NA){
+  RNAmodR::ModifierSet("ModRiboMethSeq5", x, annotation = annotation,
                        sequences = sequences, seqinfo = seqinfo)
 }

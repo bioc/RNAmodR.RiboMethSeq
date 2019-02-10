@@ -44,8 +44,9 @@ test_that("RiboMethSeq:",{
                actual)
   
   data <- data.frame(ends = "1", scoreRMS = "a", scoreA = "b", scoreB = "c",
+                     scoreMean = "d",
                      stringsAsFactors = FALSE)
   actual <- RNAmodR.RiboMethSeq:::.get_rms_scores(data)
   expect_type(actual,"list")
-  expect_named(actual,c("score","scoreA","scoreB"))
+  expect_named(actual,c("score","scoreA","scoreB","scoreMean"))
 })
