@@ -24,7 +24,8 @@ over all samples and use the union or intersect or by using publish data.
 We want to assemble a GRanges object from the latter. 
 
 For this We will load a table containg the published data from the snoRNAdb 
-[@Lestrade] and assemble the GRanges object.
+[[@Lestrade.2006]](#References) and assemble the GRanges object.
+
 ```{r, echo=FALSE}
 suppressPackageStartupMessages({
   library(GenomicFeatures)
@@ -48,6 +49,7 @@ gr <- GRanges(seqnames = table$hgnc_symbol,
 # convert to current gene name
 gr <- gr[vapply(gr$Activity != "unknown",all,logical(1)),]
 coord <- split(gr,gr$Parent)
+head(coord)
 ```
 
-# References
+# References<a name="References"></a>

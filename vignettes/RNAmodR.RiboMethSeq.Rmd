@@ -31,11 +31,11 @@ is treated in alkaline conditions and RNA fragments are used to prepare a
 sequencing library [[@Marchand.2017]](#References).
 
 At position containing a 2'-O methylations, read ends are less frequent, which
-is used to detect and score the2'-O methylations.
+is used to detect and score the 2'-O methylations.
 
 The `ModRiboMethSeq` class uses the the `ProtectedEndSequenceData` class to
 store and aggregate data along the transcripts. The calculated scores follow the
-nomenclature of [@Birkedal.2015,@Galvanin2019](#References) with the names `scoreRMS`
+nomenclature of [[@Birkedal.2015,@Galvanin2019]](#References) with the names `scoreRMS`
 (default), `scoreA`, `scoreB` and `scoreMean`.
 
 ```{r, echo = FALSE}
@@ -61,10 +61,11 @@ or a `TxDb` object and for sequence data a fasta file or a `BSgenome` object can
 be used. The data is provided as bam files.
 
 ```{r}
-annotation <- GFF3File(system.file("extdata","example_RMS.gff3",package = "RNAmodR.Data"))
-sequences <- FaFile(system.file("extdata","example_RMS.fasta",package = "RNAmodR.Data"))
-files <- list("Sample1" = c(treated = system.file("extdata","example_RMS1.bam",package = "RNAmodR.Data")),
-              "Sample2" = c(treated = system.file("extdata","example_RMS2.bam",package = "RNAmodR.Data")))
+RNAmodR.files <- RNAmodR.Data::RNAmodR.files
+annotation <- GFF3File(RNAmodR.files[["example_RMS.gff3"]])
+sequences <- FaFile(RNAmodR.files[["example_RMS.fasta"]])
+files <- list("Sample1" = c(treated = RNAmodR.files[["example_RMS1.bam"]]),
+              "Sample2" = c(treated = RNAmodR.files[["example_RMS2.bam"]]))
 ```
 
 # Analysis of data
@@ -93,8 +94,7 @@ matches the output of `ranges()` on a `SequenceData`, `Modifier` oder
 `ModifierSet` object.
 
 ```{r}
-table <- read.csv2(system.file("extdata","snoRNAdb.csv",
-                               package = "RNAmodR.Data"),
+table <- read.csv2(RNAmodR.files[["snoRNAdb.csv"]],
                    stringsAsFactors = FALSE)
 table <- table[table$hgnc_id == "53533",] # Subset to RNA5.8S
 # keep only the current coordinates
@@ -106,7 +106,7 @@ gr <- GRanges(seqnames = "chr1",
               type = "RNAMOD",
               mod = table$modification,
               Parent = "1", #this is the transcript id
-              Activity = CharacterList(strsplit(table$guide,",")))
+              Activity = IRanges::CharacterList(strsplit(table$guide,",")))
 coord <- split(gr,gr$Parent)
 ```
 
