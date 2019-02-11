@@ -70,7 +70,7 @@ files <- list("Sample1" = c(treated = RNAmodR.files[["example_RMS1.bam"]]),
 
 # Analysis of data
 
-THe analysis is triggered by the construction of a `ModSetRiboMethSeq` object.
+The analysis is triggered by the construction of a `ModSetRiboMethSeq` object.
 Internally parallelization is used via the `BiocParallel` package, which would
 allow optimization depending on number/size of input files (number of samples,
 number of replicates, number of transcripts, etc).
@@ -85,7 +85,7 @@ msrms
 To compare samples, we need to know, which positions should be part of the
 comparison. This can either be done by aggregating the detect over all samples
 and use the union or intersect or by using publish data. We want to assemble
-a GRanges object from the latter. 
+a GRanges object from the latter.
 
 In this specific example only information for the 5.8S RNA is used, since the
 example data would be to big otherwise. The information regarding the parent and

@@ -523,7 +523,7 @@ setReplaceMethod(f = "settings",
   # set up variables
   n <- length(mod)
   nV <- seq_len(n)
-  lengths <- S4Vectors::lengths(mod)
+  lengths <- lengths(mod)
   pos <- lapply(lengths,seq_len)
   flankingRegion <- settings(x,"flankingRegion")
   flankingRegionMean <- settings(x,"flankingRegionMean")
@@ -729,10 +729,18 @@ setMethod(
     mod,
     letters,
     grl)
-  modifications <- GenomicRanges::GRangesList(
-    modifications[!vapply(modifications,
-                          is.null,
-                          logical(1))])
+  f <- !vapply(modifications,
+               is.null,
+               logical(1))
+  modifications <- mapply(
+    function(m,name){
+      m$Parent <- name
+      m
+    },
+    modifications[f],
+    names(grl)[f],
+    SIMPLIFY = FALSE)
+  modifications <- GenomicRanges::GRangesList(modifications)
   unname(unlist(modifications))
 }
 
