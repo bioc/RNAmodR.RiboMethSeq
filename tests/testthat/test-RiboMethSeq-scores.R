@@ -65,6 +65,20 @@ test_that("RiboMethSeq score RMS:",{
   expect_equal(round(actual,7),0.988)
 })
 
+
+context("RiboMethSeq scoreMean")
+# .get_heatmap_data
+test_that("RiboMethSeq scoreMean:",{
+  # score RMS
+  # .calculate_ribometh_score_meth
+  actual <- RNAmodR.RiboMethSeq:::.calculate_ribometh_score_mean(1,1)
+  expect_equal(actual,0)
+  actual <- RNAmodR.RiboMethSeq:::.calculate_ribometh_score_mean(1,10)
+  expect_equal(actual,0.9)
+  actual <- RNAmodR.RiboMethSeq:::.calculate_ribometh_score_mean(1,100)
+  expect_equal(actual,0.99)
+})
+
 # context("RiboMethSeq score MAX")
 # # .get_heatmap_data
 # test_that("RiboMethSeq score MAX:",{
