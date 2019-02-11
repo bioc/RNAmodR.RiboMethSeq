@@ -112,6 +112,7 @@ NULL
 #' R. (eds) Epitranscriptomics. Methods in Molecular Biology (Humana Press, 
 #' New York, NY) 1870, P. 273-295. DOI: 
 #' \href{https://doi.org/10.1007/978-1-4939-8808-2_21}{10.1007/978-1-4939-8808-2_21}
+#' 
 NULL
 
 #' @rdname ModRiboMethSeq
@@ -715,7 +716,7 @@ setMethod(
                     lapply(seq_len(nrow(m)),function(i){logical[i,]}),
                     SIMPLIFY = TRUE),,drop=FALSE]
       if(nrow(m) == 0L) return(NULL)
-      ans <- RNAmodR::.constructModRanges(
+      ans <- RNAmodR:::.constructModRanges(
         r,
         m,
         modType = "Am",

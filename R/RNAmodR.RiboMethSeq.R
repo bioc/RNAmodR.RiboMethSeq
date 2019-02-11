@@ -21,5 +21,4 @@ NULL
 #' @import GenomicRanges
 #' @import Gviz
 NULL
-requireNamespace("IRanges")
 requireNamespace("RNAmodR")
