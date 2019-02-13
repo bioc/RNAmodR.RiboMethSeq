@@ -672,8 +672,8 @@ setMethod(
       }
       if(!hasAggregateData(x) || force){
         x@aggregate <- .aggregate_rms(x)
-        x@aggregateValidForCurrentArguments <- TRUE
       }
+      x <- callNextMethod()
       x
     }
 )
@@ -686,6 +686,12 @@ setMethod(
 }
 
 .find_rms <- function(x){
+  if(!hasAggregateData(x)){
+    stop("Something went wrong.")
+  }
+  if(!x@aggregateValidForCurrentArguments){
+    x <- aggregate(x, force = TRUE)
+  }
   letters <- IRanges::CharacterList(strsplit(as.character(sequences(x)),""))
   grl <- ranges(x)
   # get the aggregate data
@@ -741,6 +747,7 @@ setMethod(
     names(grl)[f],
     SIMPLIFY = FALSE)
   modifications <- GenomicRanges::GRangesList(modifications)
+  message("done.")
   unname(unlist(modifications))
 }
 
@@ -749,11 +756,8 @@ setMethod(
 setMethod("modify",
           signature = c(x = "ModRiboMethSeq"),
           function(x, force = FALSE){
-            # get the aggregate data
-            x <- aggregate(x, force)
             x@modifications <- .find_rms(x)
-            x@modificationsValidForCurrentArguments <- TRUE
-            message("done.")
+            x <- callNextMethod()
             x
           }
 )
