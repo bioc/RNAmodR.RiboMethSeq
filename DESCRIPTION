@@ -9,8 +9,11 @@ Authors@R: c(person("Felix G.M.",
                     "Lafontaine", 
                     email = "denis.lafontaine@ulb.ac.be", 
                     role = c("ctb", "fnd")))
-Description: Detection of 2'-O methylations on RNA sequenced using the 
-    RiboMethSeq protocol.
+Description: RNAmodR.RiboMethSeq implements the detection of 2'-O methylations 
+    on RNA sequenced using experimental data from the RiboMethSeq protocol using
+    classes outlined by the RNAmodR packages.
+biocViews: 
+    Software, WorkflowStep, Visualization
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true

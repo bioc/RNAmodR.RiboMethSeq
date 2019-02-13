@@ -689,9 +689,6 @@ setMethod(
   if(!hasAggregateData(x)){
     stop("Something went wrong.")
   }
-  if(!x@aggregateValidForCurrentArguments){
-    x <- aggregate(x, force = TRUE)
-  }
   letters <- IRanges::CharacterList(strsplit(as.character(sequences(x)),""))
   grl <- ranges(x)
   # get the aggregate data
@@ -756,6 +753,9 @@ setMethod(
 setMethod("modify",
           signature = c(x = "ModRiboMethSeq"),
           function(x, force = FALSE){
+            if(!x@aggregateValidForCurrentArguments){
+              x <- aggregate(x, force = TRUE)
+            }
             x@modifications <- .find_rms(x)
             x <- callNextMethod()
             x
