@@ -23,20 +23,21 @@ BiocStyle::markdown(css.files = c('custom.css'))
 # Introduction
 
 Among the various post-transcriptional RNA modifications, 2'-O methylations are
-quite common in rRNA and tRNA. They confere resistance to alkaline degradation
-by preventing a nucleophilic attack on the 3'-phosphate especially in flexible
-RNA, which is fascilitated by high pH conditions. This property can be queried
-using a method called RiboMethSeq [[@Birkedal.2015]](#References) for which RNA
-is treated in alkaline conditions and RNA fragments are used to prepare a
-sequencing library [[@Marchand.2017]](#References).
+commonly found in rRNA and tRNA. They promote the endo conformation of the
+ribose and confere resistance to alkaline degradation by preventing a
+nucleophilic attack on the 3'-phosphate especially in flexible RNA, which is
+fascilitated by high pH conditions. This property can be queried using a method
+called RiboMethSeq [[@Birkedal.2015]](#References) for which RNA is treated in
+alkaline conditions and RNA fragments are used to prepare a sequencing library
+[[@Marchand.2017]](#References).
 
 At position containing a 2'-O methylations, read ends are less frequent, which
 is used to detect and score the 2'-O methylations.
 
 The `ModRiboMethSeq` class uses the the `ProtectedEndSequenceData` class to
 store and aggregate data along the transcripts. The calculated scores follow the
-nomenclature of [[@Birkedal.2015,@Galvanin2019]](#References) with the names `scoreRMS`
-(default), `scoreA`, `scoreB` and `scoreMean`.
+nomenclature of [[@Birkedal.2015,@Galvanin2019]](#References) with the names
+`scoreRMS` (default), `scoreA`, `scoreB` and `scoreMean`.
 
 ```{r, echo = FALSE}
 suppressPackageStartupMessages({

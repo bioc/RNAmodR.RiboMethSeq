@@ -8,8 +8,7 @@ NULL
 #' 
 #' @title ModRiboMethSeq class to analyze RiboMethSeq data
 #' 
-#' @description 
-#' title
+#' @description
 #' Among the various post-transcriptional RNA modifications, 2'-O methylations
 #' are quite common in rRNA and tRNA. They confere resistance to alkaline 
 #' degradation by preventing a nucleophilic attack on the 3'-phosphate 
@@ -22,7 +21,7 @@ NULL
 #' which is used to detect and score the2'-O methylations.
 #' 
 #' The \code{ModRiboMethSeq} class uses the the 
-#' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
+#' \code{\link[RNAmodR:ProtectedEndSequenceData-class]{ProtectedEndSequenceData}}
 #' class to store and aggregate data along the transcripts. The calculated 
 #' scores follow the nomenclature of Birkedahl et al. (2015) with the names
 #' \code{scoreRMS} (default), \code{scoreA}, \code{scoreB} and \code{scoreMean}.
@@ -41,7 +40,7 @@ NULL
 #' 
 #' The \code{ModRiboMethSeq5} class can be used as well. However, as 
 #' \code{SequenceData} the 
-#' \code{\link[RNAmodR:EndSequenceData]{End5SequenceData}} is employed using
+#' \code{\link[RNAmodR:EndSequenceData-class]{End5SequenceData}} is employed using
 #' only the 5'-end positions of reads.
 #' 
 #' @param x the input which can be of the different types depending on whether
@@ -86,10 +85,10 @@ NULL
 #' are discarded, since they represent non-fragemented reads. This might need to
 #' be adjusted for individual samples dending on the experimental conditions.
 #' This is argument is passed on to 
-#' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}
+#' \code{\link[RNAmodR:ProtectedEndSequenceData-class]{ProtectedEndSequenceData}}
 #' (default: \code{maxLength = 50L}).}
 #' \item{other arguments} {which are passed on to 
-#' \code{\link[RNAmodR:ProtectedEndSequenceData]{ProtectedEndSequenceData}}.}
+#' \code{\link[RNAmodR:ProtectedEndSequenceData-class]{ProtectedEndSequenceData}}.}
 #' }
 #' To disable minimal values for modification calling, set them to \code{0}.
 #' It is not advised to set them all to \code{0}.
