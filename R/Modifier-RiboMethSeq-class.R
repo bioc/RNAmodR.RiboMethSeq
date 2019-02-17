@@ -522,7 +522,7 @@ setReplaceMethod(f = "settings",
     stop("Something went wrong.")
   }
   # get the means. the sds arecurrently disregarded for this analysis
-  mod <- aggregate(seqData(x), condition = "Treated")
+  mod <- aggregate(sequenceData(x), condition = "Treated")
   means <- IRanges::IntegerList(mod@unlistData[,which(grepl("mean",
                                                             colnames(mod@unlistData)))])
   means@partitioning <- mod@partitioning
