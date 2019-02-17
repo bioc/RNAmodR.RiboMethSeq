@@ -202,6 +202,13 @@ NULL
   flankingRegionMean <- 2L # for ScoreMean
   weights <- c(0.9,1,0,1,0.9) # for score B/C/RMS
   scoreOperator <- "&"
+  if(!is.null(input[["maxLength"]])){
+    maxLength <- input[["maxLength"]]
+    if(!is.integer(maxLength) | maxLength < 10L){
+      stop("'maxLength' must be integer with a value higher than 10.",
+           call. = FALSE)
+    }
+  }
   if(!is.null(input[["weights"]])){
     weights <- input[["weights"]]
     if(!.valid_rms_weights(weights)){
