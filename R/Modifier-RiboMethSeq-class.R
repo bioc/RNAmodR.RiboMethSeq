@@ -772,9 +772,10 @@ setClass("ModSetRiboMethSeq",
 
 #' @rdname ModRiboMethSeq
 #' @export
-ModSetRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA){
-  RNAmodR::ModifierSet("ModRiboMethSeq", x, annotation = annotation,
-                       sequences = sequences, seqinfo = seqinfo)
+ModSetRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
+                              ...){
+  RNAmodR:::ModifierSet("ModRiboMethSeq", x, annotation = annotation,
+                        sequences = sequences, seqinfo = seqinfo, ...)
 }
 
 #' @rdname ModRiboMethSeq
@@ -785,7 +786,8 @@ setClass("ModSetRiboMethSeq5",
 
 #' @rdname ModRiboMethSeq
 #' @export
-ModSetRiboMethSeq5 <- function(x, annotation = NA, sequences = NA, seqinfo = NA){
-  RNAmodR::ModifierSet("ModRiboMethSeq5", x, annotation = annotation,
-                       sequences = sequences, seqinfo = seqinfo)
+ModSetRiboMethSeq5 <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
+                               ...){
+  RNAmodR:::ModifierSet("ModRiboMethSeq5", x, annotation = annotation,
+                        sequences = sequences, seqinfo = seqinfo, ...)
 }

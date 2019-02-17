@@ -14,9 +14,11 @@
 \usage{
 ModRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA, ...)
 
-ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA)
+ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA,
+  ...)
 
-ModSetRiboMethSeq5(x, annotation = NA, sequences = NA, seqinfo = NA)
+ModSetRiboMethSeq5(x, annotation = NA, sequences = NA, seqinfo = NA,
+  ...)
 }
 \arguments{
 \item{x}{the input which can be of the different types depending on whether
@@ -74,7 +76,6 @@ To disable minimal values for modification calling, set them to \code{0}.
 It is not advised to set them all to \code{0}.}
 }
 \description{
-title
 Among the various post-transcriptional RNA modifications, 2'-O methylations
 are quite common in rRNA and tRNA. They confere resistance to alkaline 
 degradation by preventing a nucleophilic attack on the 3'-phosphate 
