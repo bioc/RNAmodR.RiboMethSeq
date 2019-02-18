@@ -513,7 +513,6 @@ setReplaceMethod(f = "settings",
 }
 
 .aggregate_rms <- function(x){
-  message("Aggregating data and calculating scores...")
   # parameter data
   weights <- .norm_rms_weights(x)
   weightPositions <- as.integer(names(weights))
