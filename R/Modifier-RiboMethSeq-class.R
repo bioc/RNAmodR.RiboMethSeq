@@ -742,7 +742,7 @@ setMethod(
                logical(1))
   modifications <- mapply(
     function(m,name){
-      m$Parent <- name
+      m$Parent <- rep(name,length(m))
       m
     },
     modifications[f],
