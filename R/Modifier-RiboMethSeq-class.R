@@ -724,7 +724,7 @@ setMethod(
                     lapply(seq_len(nrow(m)),function(i){logical[i,]}),
                     SIMPLIFY = TRUE),,drop=FALSE]
       if(nrow(m) == 0L) return(NULL)
-      ans <- RNAmodR:::.constructModRanges(
+      ans <- RNAmodR:::constructModRanges(
         r,
         m,
         modType = "Am",
