@@ -660,26 +660,19 @@ setReplaceMethod(f = "settings",
                               scoreRMS = unlist(scoreRMS),
                               scoreMean = unlist(scoreMean),
                               row.names = NULL)
-  ans <- IRanges::SplitDataFrameList(ans)
-  ans@partitioning <- mod@partitioning
+  ans <- relist(ans, mod@partitioning)
+  rownames(ans) <- IRanges::CharacterList(RNAmodR:::.seqs_rl_strand(ranges(x)))
   ans
 }
 
 #' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
-  f = "aggregate", 
+  f = "aggregateData", 
   signature = signature(x = "ModRiboMethSeq"),
   definition = 
-    function(x, force = FALSE){
-      if(missing(force)){
-        force <- FALSE
-      }
-      if(!hasAggregateData(x) || force){
-        x@aggregate <- .aggregate_rms(x)
-      }
-      x <- callNextMethod()
-      x
+    function(x){
+      .aggregate_rms(x)
     }
 )
 
@@ -697,7 +690,7 @@ setMethod(
   letters <- IRanges::CharacterList(strsplit(as.character(sequences(x)),""))
   grl <- ranges(x)
   # get the aggregate data
-  mod <- aggregateData(x)
+  mod <- getAggregateData(x)
   # setup args
   minSignal <- settings(x,"minSignal")
   minScoreA <- settings(x,"minScoreA")
@@ -755,15 +748,10 @@ setMethod(
 
 #' @rdname ModRiboMethSeq-functions
 #' @export
-setMethod("modify",
+setMethod("findMod",
           signature = c(x = "ModRiboMethSeq"),
-          function(x, force = FALSE){
-            if(!x@aggregateValidForCurrentArguments){
-              x <- aggregate(x, force = TRUE)
-            }
-            x@modifications <- .find_rms(x)
-            x <- callNextMethod()
-            x
+          function(x){
+            .find_rms(x)
           }
 )
 
