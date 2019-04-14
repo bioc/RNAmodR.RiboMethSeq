@@ -87,6 +87,8 @@ conditions and RNA fragments are used to prepare a sequencing library.
 At position containing a 2'-O methylations, read ends are less frequent, 
 which is used to detect and score the2'-O methylations.
 
+\code{dataType} is \code{"ProtectedEndSequenceData"}:
+
 The \code{ModRiboMethSeq} class uses the the 
 \code{\link[RNAmodR:ProtectedEndSequenceData-class]{ProtectedEndSequenceData}}
 class to store and aggregate data along the transcripts. The calculated 

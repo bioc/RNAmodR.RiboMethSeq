@@ -28,11 +28,13 @@ Nielsen H (2015): "Profiling of ribose methylations in RNA by high-throughput
 sequencing." Angewandte Chemie (International ed. in English) 54 (2),
 P. 451–455. DOI: 
 [10.1002/anie.201408362](https://doi.org/10.1002/anie.201408362).
+
 - Marchand V, Ayadi L, El Hajj A, Blanloeil-Oillo F, Helm M, Motorin Y
 (2017): "High-Throughput Mapping of 2'-O-Me Residues in RNA Using
 Next-Generation Sequencing (Illumina RiboMethSeq Protocol)." Methods in
 molecular biology (Clifton, N.J.) 1562, P. 171–187. DOI:
 [10.1007/978-1-4939-6807-7_12](https://doi.org/10.1007/978-1-4939-6807-7_12).
+
 - Galvanin A, Ayadi L, Helm M, Motorin Y, Marchand V (2017): "Mapping and
 Quantification of tRNA 2′-O-Methylation by RiboMethSeq". Wajapeyee N., Gupta
 R. (eds) Epitranscriptomics. Methods in Molecular Biology (Humana Press,
