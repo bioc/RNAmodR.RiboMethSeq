@@ -49,7 +49,7 @@ suppressPackageStartupMessages({
 ```
 ```{r, eval = FALSE}
 library(rtracklayer)
-library(GenomicFeatures)
+library(GenomicRanges)
 library(RNAmodR.RiboMethSeq)
 library(RNAmodR.Data)
 ```
@@ -61,7 +61,7 @@ since the size of the raw data is limited. For annotation data either a gff file
 or a `TxDb` object and for sequence data a fasta file or a `BSgenome` object can
 be used. The data is provided as bam files.
 
-```{r}
+```{r, echo=FALSE}
 annotation <- GFF3File(RNAmodR.Data.example.RMS.gff3())
 sequences <- RNAmodR.Data.example.RMS.fasta()
 files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
@@ -162,7 +162,7 @@ msrms2 <- modify(msrms,force = TRUE)
 # Session info
 
 ```{r, sessioninfo}
-sessioninfo::session_info()
+sessionInfo()
 ```
 
 <a name="References"></a>

@@ -124,9 +124,11 @@ NULL
 #' files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
 #'               "Sample2" = c(treated = RNAmodR.Data.example.RMS.1()))
 #' # Creating a Modifier object of type ModRiboMethSeq
-#' mrms <- ModRiboMethSeq(files[[1]], annotation = annotation, sequences = sequences)
+#' mrms <- ModRiboMethSeq(files[[1]], annotation = annotation,
+#'                        sequences = sequences)
 #' # Creating a ModifierSet object of type ModSetRiboMethSeq
-#' msrms <- ModSetRiboMethSeq(files, annotation = annotation, sequences = sequences)
+#' msrms <- ModSetRiboMethSeq(files, annotation = annotation,
+#'                            sequences = sequences)
 NULL
 
 #' @rdname ModRiboMethSeq
