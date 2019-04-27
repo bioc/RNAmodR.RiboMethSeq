@@ -75,6 +75,9 @@ This is argument is passed on to
 To disable minimal values for modification calling, set them to \code{0}.
 It is not advised to set them all to \code{0}.}
 }
+\value{
+a \code{ModRiboMethSeq} or \code{ModSetRiboMethSeq} object
+}
 \description{
 Among the various post-transcriptional RNA modifications, 2'-O methylations
 are quite common in rRNA and tRNA. They confere resistance to alkaline 
@@ -111,6 +114,18 @@ The \code{ModRiboMethSeq5} class can be used as well. However, as
 \code{SequenceData} the 
 \code{\link[RNAmodR:EndSequenceData-class]{End5SequenceData}} is employed using
 only the 5'-end positions of reads.
+}
+\examples{
+library(RNAmodR.Data)
+library(rtracklayer)
+annotation <- GFF3File(RNAmodR.Data.example.RMS.gff3())
+sequences <- RNAmodR.Data.example.RMS.fasta()
+files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
+              "Sample2" = c(treated = RNAmodR.Data.example.RMS.1()))
+# Creating a Modifier object of type ModRiboMethSeq
+mrms <- ModRiboMethSeq(files[[1]], annotation = annotation, sequences = sequences)
+# Creating a ModifierSet object of type ModSetRiboMethSeq
+msrms <- ModSetRiboMethSeq(files, annotation = annotation, sequences = sequences)
 }
 \references{
 - Birkedal U, Christensen-Dalsgaard M, Krogh N, Sabarinathan R, Gorodkin J, 

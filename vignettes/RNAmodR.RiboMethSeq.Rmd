@@ -42,16 +42,16 @@ nomenclature of [[@Birkedal.2015,@Galvanin2019]](#References) with the names
 ```{r, echo = FALSE}
 suppressPackageStartupMessages({
   library(rtracklayer)
-  library(Rsamtools)
-  library(GenomicFeatures)
+  library(GenomicRanges)
   library(RNAmodR.RiboMethSeq)
+  library(RNAmodR.Data)
 })
 ```
 ```{r, eval = FALSE}
 library(rtracklayer)
-library(Rsamtools)
 library(GenomicFeatures)
 library(RNAmodR.RiboMethSeq)
+library(RNAmodR.Data)
 ```
 
 # Example workflow
@@ -62,11 +62,10 @@ or a `TxDb` object and for sequence data a fasta file or a `BSgenome` object can
 be used. The data is provided as bam files.
 
 ```{r}
-RNAmodR.files <- RNAmodR.Data::RNAmodR.files
-annotation <- GFF3File(RNAmodR.files[["example_RMS.gff3"]])
-sequences <- FaFile(RNAmodR.files[["example_RMS.fasta"]])
-files <- list("Sample1" = c(treated = RNAmodR.files[["example_RMS1.bam"]]),
-              "Sample2" = c(treated = RNAmodR.files[["example_RMS2.bam"]]))
+annotation <- GFF3File(RNAmodR.Data.example.RMS.gff3())
+sequences <- RNAmodR.Data.example.RMS.fasta()
+files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
+              "Sample2" = c(treated = RNAmodR.Data.example.RMS.1()))
 ```
 
 # Analysis of data
@@ -86,7 +85,8 @@ msrms
 To compare samples, we need to know, which positions should be part of the
 comparison. This can either be done by aggregating the detect over all samples
 and use the union or intersect or by using publish data. We want to assemble
-a GRanges object from the latter.
+a GRanges object from the latter by utilising the infomation from the snoRNAdb
+[[@Lestrade.2006]](#References).
 
 In this specific example only information for the 5.8S RNA is used, since the
 example data would be to big otherwise. The information regarding the parent and
@@ -95,12 +95,11 @@ matches the output of `ranges()` on a `SequenceData`, `Modifier` oder
 `ModifierSet` object.
 
 ```{r}
-table <- read.csv2(RNAmodR.files[["snoRNAdb.csv"]],
-                   stringsAsFactors = FALSE)
+table <- read.csv2(RNAmodR.Data.snoRNAdb(), stringsAsFactors = FALSE)
 table <- table[table$hgnc_id == "53533",] # Subset to RNA5.8S
 # keep only the current coordinates
 table <- table[,1:7]
-gr <- GRanges(seqnames = "chr1",
+snoRNAdb <- GRanges(seqnames = "chr1",
               ranges = IRanges(start = table$position,
                                width = 1),
               strand = "+",
@@ -108,7 +107,7 @@ gr <- GRanges(seqnames = "chr1",
               mod = table$modification,
               Parent = "1", #this is the transcript id
               Activity = IRanges::CharacterList(strsplit(table$guide,",")))
-coord <- split(gr,gr$Parent)
+coord <- split(snoRNAdb,snoRNAdb$Parent)
 ```
 
 In addition to the coordinates of published, we also want to include more 
@@ -166,4 +165,6 @@ msrms2 <- modify(msrms,force = TRUE)
 sessioninfo::session_info()
 ```
 
-# References<a name="References"></a>
+<a name="References"></a>
+
+# References

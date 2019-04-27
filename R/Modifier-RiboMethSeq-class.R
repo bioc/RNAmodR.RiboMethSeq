@@ -95,6 +95,8 @@ NULL
 #' To disable minimal values for modification calling, set them to \code{0}.
 #' It is not advised to set them all to \code{0}.
 #' 
+#' @return a \code{ModRiboMethSeq} or \code{ModSetRiboMethSeq} object
+#' 
 #' @references 
 #' - Birkedal U, Christensen-Dalsgaard M, Krogh N, Sabarinathan R, Gorodkin J, 
 #' Nielsen H (2015): "Profiling of ribose methylations in RNA by high-throughput
@@ -114,6 +116,17 @@ NULL
 #' New York, NY) 1870, P. 273-295. DOI: 
 #' \href{https://doi.org/10.1007/978-1-4939-8808-2_21}{10.1007/978-1-4939-8808-2_21}
 #' 
+#' @examples
+#' library(RNAmodR.Data)
+#' library(rtracklayer)
+#' annotation <- GFF3File(RNAmodR.Data.example.RMS.gff3())
+#' sequences <- RNAmodR.Data.example.RMS.fasta()
+#' files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
+#'               "Sample2" = c(treated = RNAmodR.Data.example.RMS.1()))
+#' # Creating a Modifier object of type ModRiboMethSeq
+#' mrms <- ModRiboMethSeq(files[[1]], annotation = annotation, sequences = sequences)
+#' # Creating a ModifierSet object of type ModSetRiboMethSeq
+#' msrms <- ModSetRiboMethSeq(files, annotation = annotation, sequences = sequences)
 NULL
 
 #' @rdname ModRiboMethSeq
@@ -160,7 +173,6 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
 #' \code{\link[RNAmodR:ModifierSet-class]{ModifierSet}} object. For more
 #' details see also the man pages for the functions mentioned below.
 #' @param value See \code{\link[RNAmodR:Modifier-class]{settings}}
-#' @param force See \code{\link[RNAmodR:aggregate]{aggregate}}
 #' @param coord,name,from,to,type,window.size,... See 
 #' \code{\link[RNAmodR:visualizeData]{visualizeData}}
 #' 
@@ -173,8 +185,30 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
 #' \code{c("ends","scoreA","scoreB","scoreRMS","scoreMean")}}
 #' }
 #' 
+#' @return 
+#' \itemize{
+#' \item{\code{settings}} {See 
+#' \code{\link[RNAmodR:Modifier-functions]{settings}}.}
+#' \item{\code{aggregate}} {See \code{\link[RNAmodR:aggregate]{aggregate}}.}
+#' \item{\code{modify}} {See \code{\link[RNAmodR:modify]{modify}}.}
+#' \item{\code{getDataTrack}} {a list of 
+#' \code{\link[Gviz:DataTrack-class]{DataTrack}} object.}
+#' \item{\code{visualizeData}} {See 
+#' \code{\link[RNAmodR:visualizeDataByCoord]{visualizeDataByCoord}}.}
+#' \item{\code{visualizeDataByCoord}} {See 
+#' \code{\link[RNAmodR:visualizeDataByCoord]{visualizeDataByCoord}}.}
+#' }
+#' 
 #' @importMethodsFrom RNAmodR modify aggregate settings visualizeData 
 #' visualizeDataByCoord
+#' 
+#' @examples 
+#' data(msrms,package="RNAmodR.RiboMethSeq")
+#' mrms <- msrms[[1]]
+#' settings(mrms)
+#' aggregate(mrms)
+#' modify(mrms)
+#' getDataTrack(mrms, "1", mainScore(mrms))
 NULL
 
 .valid_rms_weights <- function(weights){
