@@ -123,11 +123,9 @@ sequences <- RNAmodR.Data.example.RMS.fasta()
 files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
               "Sample2" = c(treated = RNAmodR.Data.example.RMS.1()))
 # Creating a Modifier object of type ModRiboMethSeq
-mrms <- ModRiboMethSeq(files[[1]], annotation = annotation,
-                       sequences = sequences)
+mrms <- ModRiboMethSeq(files[[1]], annotation = annotation, sequences = sequences)
 # Creating a ModifierSet object of type ModSetRiboMethSeq
-msrms <- ModSetRiboMethSeq(files, annotation = annotation,
-                           sequences = sequences)
+msrms <- ModSetRiboMethSeq(files, annotation = annotation, sequences = sequences)
 }
 \references{
 - Birkedal U, Christensen-Dalsgaard M, Krogh N, Sabarinathan R, Gorodkin J, 
@@ -143,7 +141,7 @@ molecular biology (Clifton, N.J.) 1562, P. 171–187. DOI:
 \href{https://doi.org/10.1007/978-1-4939-6807-7_12}{10.1007/978-1-4939-6807-7_12}.
 
 - Galvanin A, Ayadi L, Helm M, Motorin Y, Marchand V (2017): "Mapping and 
-Quantification of tRNA 2′-O-Methylation by RiboMethSeq". Wajapeyee N., Gupta
+Quantification of tRNA 2'-O-Methylation by RiboMethSeq". Wajapeyee N., Gupta
 R. (eds) Epitranscriptomics. Methods in Molecular Biology (Humana Press, 
 New York, NY) 1870, P. 273-295. DOI: 
 \href{https://doi.org/10.1007/978-1-4939-8808-2_21}{10.1007/978-1-4939-8808-2_21}

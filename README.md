@@ -36,7 +36,7 @@ molecular biology (Clifton, N.J.) 1562, P. 171–187. DOI:
 [10.1007/978-1-4939-6807-7_12](https://doi.org/10.1007/978-1-4939-6807-7_12).
 
 - Galvanin A, Ayadi L, Helm M, Motorin Y, Marchand V (2017): "Mapping and
-Quantification of tRNA 2′-O-Methylation by RiboMethSeq". Wajapeyee N., Gupta
+Quantification of tRNA 2'-O-Methylation by RiboMethSeq". Wajapeyee N., Gupta
 R. (eds) Epitranscriptomics. Methods in Molecular Biology (Humana Press,
 New York, NY) 1870, P. 273-295. DOI:
 [10.1007/978-1-4939-8808-2_21](https://doi.org/10.1007/978-1-4939-8808-2_21).
