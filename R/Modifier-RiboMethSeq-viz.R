@@ -7,8 +7,7 @@ RNAMODR_RMS_PLOT_DATA <- c("ends",
                            "scoreB",
                            "scoreRMS",
                            "scoreMean")
-RNAMODR_RMS_PLOT_DATA_DEFAULT <- c("scoreRMS",
-                                   "scoreMean")
+RNAMODR_RMS_PLOT_DATA_DEFAULT <- c("scoreRMS")
 RNAMODR_RMS_PLOT_DATA_NAMES <- c(ends = "5'- & 3'-ends",
                                  scoreA = "Score A",
                                  scoreB = "Score B",

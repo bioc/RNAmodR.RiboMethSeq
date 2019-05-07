@@ -14,7 +14,7 @@ test_that("RiboMethSeq:",{
   expect_type(actual,"list")
   expect_named(actual,c("minCoverage",
                         "minReplicate",
-                        "findMod",
+                        "find.mod",
                         "maxLength",
                         "weights",
                         "minSignal",

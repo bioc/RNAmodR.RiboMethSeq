@@ -1,6 +1,6 @@
 Package: RNAmodR.RiboMethSeq
 Title: RNAmodR.RiboMethSeq: detection of 2'-O methylations by RiboMethSeq
-Version: 0.99.2
+Version: 0.99.3
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
                     email = "felix.gm.ernst@outlook.com", 
