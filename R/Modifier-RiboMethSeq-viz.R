@@ -70,7 +70,7 @@ setMethod(
 #' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
-  f = "visualizeDataByCoord",
+  f = "plotDataByCoord",
   signature = signature(x = "ModRiboMethSeq",
                         coord = "GRanges"),
   definition = function(x, coord,
@@ -89,7 +89,7 @@ setMethod(
 #' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
-  f = "visualizeData",
+  f = "plotData",
   signature = signature(x = "ModRiboMethSeq"),
   definition = function(x, name, from, to,
                         type = c("ends","scoreA","scoreB","scoreRMS","scoreMean"), ...) {
@@ -105,7 +105,7 @@ setMethod(
 #' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
-  f = "visualizeDataByCoord",
+  f = "plotDataByCoord",
   signature = signature(x = "ModSetRiboMethSeq",
                         coord = "GRanges"),
   definition = function(x, coord,
@@ -124,7 +124,7 @@ setMethod(
 #' @rdname ModRiboMethSeq-functions
 #' @export
 setMethod(
-  f = "visualizeData",
+  f = "plotData",
   signature = signature(x = "ModSetRiboMethSeq"),
   definition = function(x, name, from, to,
                         type = c("scoreRMS","ends","scoreA","scoreB","scoreMean"), ...) {

@@ -129,7 +129,7 @@ coordinates to compare.
 
 ```{r, plot2, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA.", fig.asp=1}
 singleCoord <- coord[[1]][1,]
-visualizeDataByCoord(msrms, singleCoord)
+plotDataByCoord(msrms, singleCoord)
 ```
 
 By default only the RiboMethSeq score and the ScoreMean are shown.
