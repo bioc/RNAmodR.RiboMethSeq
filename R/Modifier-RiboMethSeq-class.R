@@ -227,100 +227,72 @@ NULL
   TRUE
 }
 
+.not_logical_operator <- RNAmodR:::.not_logical_operator
+.not_integer_bigger_than_10 <- RNAmodR:::.not_integer_bigger_than_10
+.not_integer_bigger_than_zero <- RNAmodR:::.not_integer_bigger_than_zero
+.not_numeric_between_0_1 <- RNAmodR:::.not_numeric_between_0_1
+.not_numeric_bigger_zero <- RNAmodR:::.not_numeric_bigger_zero
+
+.ModRiboMethSeq_settings <- data.frame(
+  variable = c("maxLength",
+               "minSignal",
+               "minScoreA",
+               "flankingRegion",
+               "minScoreB",
+               "minScoreRMS",
+               "minScoreMean",
+               "flankingRegionMean",
+               "weights",
+               "scoreOperator"),
+  testFUN = c(".not_integer_bigger_than_10",
+              ".not_integer_bigger_than_zero",
+              ".not_numeric_between_0_1",
+              ".not_integer_bigger_than_zero",
+              ".not_numeric_bigger_zero",
+              ".not_numeric_between_0_1",
+              ".not_numeric_between_0_1",
+              ".not_integer_bigger_than_zero",
+              ".valid_rms_weights",
+              ".not_logical_operator"),
+  errorValue = c(TRUE,
+                 TRUE,
+                 TRUE,
+                 TRUE,
+                 TRUE,
+                 TRUE,
+                 TRUE,
+                 TRUE,
+                 FALSE,
+                 TRUE),
+  errorMessage = c("'maxLength' must be integer with a value higher than 10.",
+                   "'minSignal' must be integer with a value higher than 0.",
+                   "'minScoreA' must be numeric with a value between 0 and 1.",
+                   "'flankingRegion' must be integer with a value higher than 0L.",
+                   "'minScoreB' must be numeric and greater then 0.",
+                   "'minScoreRMS' must be numeric with a value between 0 and 1.",
+                   "'minScoreMean' must be numeric with a value between 0 and 1.",
+                   "'flankingRegionMean' must be integer with a value higher than 0L.",
+                   "'weights' must be a numeric vector of uneven length. The middle position will be used as the current position.",
+                   "'scoreOperator' must be either '|' or '&'."),
+  stringsAsFactors = FALSE)
+
 .norm_rms_args <- function(input){
   maxLength <- 50L # for all scores
   minSignal <- 10L # for all scores
-  flankingRegion <- 6L # for score A
   minScoreA <- 0.6 # for score A
+  flankingRegion <- 6L # for score A
   minScoreB <- 3.6 # for score B
   minScoreRMS <- 0.75 # for score C/RMS
   minScoreMean <- 0.75 # for ScoreMean
   flankingRegionMean <- 2L # for ScoreMean
   weights <- c(0.9,1,0,1,0.9) # for score B/C/RMS
   scoreOperator <- "&"
-  if(!is.null(input[["maxLength"]])){
-    maxLength <- input[["maxLength"]]
-    if(!is.integer(maxLength) | maxLength < 10L){
-      stop("'maxLength' must be integer with a value higher than 10.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["weights"]])){
-    weights <- input[["weights"]]
-    if(!.valid_rms_weights(weights)){
-      stop("'weights' must be a numeric vector of uneven length. The middle ",
-           "position will be used as the current position.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["minSignal"]])){
-    minSignal <- input[["minSignal"]]
-    if(!is.integer(minSignal) | minSignal < 1L){
-      stop("'minSignal' must be integer with a value higher than 0.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["minScoreA"]])){
-    minScoreA <- input[["minScoreA"]]
-    if(!is.numeric(minScoreA) | minScoreA < 0 | minScoreA > 1){
-      stop("'minScoreA' must be numeric with a value between 0 and 1.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["flankingRegion"]])){
-    flankingRegion <- input[["flankingRegion"]]
-    if(!is.integer(flankingRegion) | flankingRegion < 1L){
-      stop("'flankingRegion' must be integer with a value higher than 0L.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["minScoreB"]])){
-    minScoreB <- input[["minScoreB"]]
-    if(!is.numeric(minScoreB) | minScoreB < 0){
-      stop("'minScoreB' must be numeric and greater then 0.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["minScoreRMS"]])){
-    minScoreRMS <- input[["minScoreRMS"]]
-    if(!is.numeric(minScoreRMS) | minScoreRMS < 0 | minScoreRMS > 1){
-      stop("'minScoreRMS' must be numeric with a value between 0 and 1.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["minScoreMean"]])){
-    minScoreMean <- input[["minScoreMean"]]
-    if(!is.numeric(minScoreMean) | minScoreMean < 0 | minScoreMean > 1){
-      stop("'minScoreMean' must be numeric with a value between 0 and 1.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["flankingRegionMean"]])){
-    flankingRegionMean <- input[["flankingRegionMean"]]
-    if(!is.integer(flankingRegionMean) | flankingRegionMean < 1L){
-      stop("'flankingRegionMean' must be integer with a value higher than 0L.",
-           call. = FALSE)
-    }
-  }
-  if(!is.null(input[["scoreOperator"]])){
-    scoreOperator <- input[["scoreOperator"]]
-    if(!(scoreOperator %in% c("|","&"))){
-      stop("'scoreOperator' must be either '|' or '&'.",
-           call. = FALSE)
-    }
-  }
-  args <- RNAmodR:::.norm_args(input)
-  args <- c(args,
-            list(maxLength = maxLength,
-                 weights = weights,
-                 minSignal = minSignal,
-                 flankingRegion = flankingRegion,
-                 minScoreA = minScoreA,
-                 minScoreB = minScoreB,
-                 minScoreRMS = minScoreRMS,
-                 minScoreMean = minScoreMean,
-                 flankingRegionMean = flankingRegionMean,
-                 scoreOperator = scoreOperator))
+  args <- RNAmodR:::.norm_settings(input, .ModRiboMethSeq_settings, maxLength,
+                                   minSignal, flankingRegion, minScoreA, 
+                                   minScoreB, minScoreRMS, minScoreMean, 
+                                   flankingRegionMean, weights, scoreOperator)
+  args <- c(RNAmodR:::.norm_Modifier_settings(input),
+            args)
   args
 }
 
@@ -331,7 +303,7 @@ setReplaceMethod(f = "settings",
                  definition = function(x, value){
                    x <- callNextMethod()
                    value <- .norm_rms_args(value)
-                   x@arguments[names(value)] <- unname(value)
+                   x@settings[names(value)] <- unname(value)
                    x
                  })
 

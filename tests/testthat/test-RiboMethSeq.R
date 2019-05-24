@@ -16,7 +16,6 @@ test_that("RiboMethSeq:",{
                         "minReplicate",
                         "find.mod",
                         "maxLength",
-                        "weights",
                         "minSignal",
                         "flankingRegion",
                         "minScoreA",
@@ -24,6 +23,7 @@ test_that("RiboMethSeq:",{
                         "minScoreRMS",
                         "minScoreMean",
                         "flankingRegionMean",
+                        "weights",
                         "scoreOperator"))
   expect_error(RNAmodR.RiboMethSeq:::.norm_rms_args(list(weights = c(1,1,0,1))))
   expect_error(RNAmodR.RiboMethSeq:::.norm_rms_args(list(minSignal = 10)))
