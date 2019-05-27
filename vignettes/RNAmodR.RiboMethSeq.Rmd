@@ -36,7 +36,7 @@ is used to detect and score the 2'-O methylations.
 
 The `ModRiboMethSeq` class uses the the `ProtectedEndSequenceData` class to
 store and aggregate data along the transcripts. The calculated scores follow the
-nomenclature of [[@Birkedal.2015,@Galvanin2019]](#References) with the names
+nomenclature of [[@Birkedal.2015;@Galvanin.2019]](#References) with the names
 `scoreRMS` (default), `scoreA`, `scoreB` and `scoreMean`.
 
 ```{r, echo = FALSE}
@@ -61,7 +61,7 @@ since the size of the raw data is limited. For annotation data either a gff file
 or a `TxDb` object and for sequence data a fasta file or a `BSgenome` object can
 be used. The data is provided as bam files.
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 annotation <- GFF3File(RNAmodR.Data.example.RMS.gff3())
 sequences <- RNAmodR.Data.example.RMS.fasta()
 files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
