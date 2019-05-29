@@ -6,18 +6,12 @@
 \alias{RiboMethSeq}
 \alias{ModSetRiboMethSeq}
 \alias{ModRiboMethSeq-class}
-\alias{ModRiboMethSeq5-class}
 \alias{ModSetRiboMethSeq-class}
-\alias{ModSetRiboMethSeq5-class}
-\alias{ModSetRiboMethSeq5}
 \title{ModRiboMethSeq class to analyze RiboMethSeq data}
 \usage{
 ModRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA, ...)
 
 ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA,
-  ...)
-
-ModSetRiboMethSeq5(x, annotation = NA, sequences = NA, seqinfo = NA,
   ...)
 }
 \arguments{
