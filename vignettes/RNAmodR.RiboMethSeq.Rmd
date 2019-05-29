@@ -65,7 +65,7 @@ be used. The data is provided as bam files.
 annotation <- GFF3File(RNAmodR.Data.example.RMS.gff3())
 sequences <- RNAmodR.Data.example.RMS.fasta()
 files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
-              "Sample2" = c(treated = RNAmodR.Data.example.RMS.1()))
+              "Sample2" = c(treated = RNAmodR.Data.example.RMS.2()))
 ```
 
 # Analysis of data

@@ -137,23 +137,13 @@ setClass("ModRiboMethSeq",
                           score = "scoreRMS",
                           dataType = "ProtectedEndSequenceData"))
 
-
-#' @rdname ModRiboMethSeq
-#' @export
-setClass("ModRiboMethSeq5",
-         contains = c("ModRiboMethSeq"),
-         prototype = list(mod = c("Am","Cm","Gm","Um"),
-                          score = "scoreRMS",
-                          dataType = "End5SequenceData"))
-
-
 # constructor ------------------------------------------------------------------
 
 #' @rdname ModRiboMethSeq
 #' @export
 ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
                            ...){
-  RNAmodR:::Modifier("ModRiboMethSeq", x = x, annotation = annotation,
+  RNAmodR::Modifier("ModRiboMethSeq", x = x, annotation = annotation,
                      sequences = sequences, seqinfo = seqinfo, ...)
 }
 
@@ -530,9 +520,7 @@ setReplaceMethod(f = "settings",
   }
   # get the means. the sds arecurrently disregarded for this analysis
   mod <- aggregate(sequenceData(x), condition = "Treated")
-  means <- IRanges::IntegerList(mod@unlistData[,which(grepl("mean",
-                                                            colnames(mod@unlistData)))])
-  means@partitioning <- mod@partitioning
+  means <- mod[,which(grepl("mean", colnames(unlist(mod))))]
   # set up variables
   n <- length(mod)
   nV <- seq_len(n)
@@ -668,7 +656,7 @@ setReplaceMethod(f = "settings",
                               scoreRMS = unlist(scoreRMS),
                               scoreMean = unlist(scoreMean),
                               row.names = NULL)
-  ans <- relist(ans, mod@partitioning)
+  ans <- relist(ans, IRanges::PartitioningByEnd(mod))
   rownames(ans) <- IRanges::CharacterList(RNAmodR:::.seqs_rl_strand(ranges(x)))
   ans
 }
@@ -775,20 +763,6 @@ setClass("ModSetRiboMethSeq",
 #' @export
 ModSetRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
                               ...){
-  RNAmodR:::ModifierSet("ModRiboMethSeq", x, annotation = annotation,
-                        sequences = sequences, seqinfo = seqinfo, ...)
-}
-
-#' @rdname ModRiboMethSeq
-#' @export
-setClass("ModSetRiboMethSeq5",
-         contains = "ModSetRiboMethSeq",
-         prototype = list(elementType = "ModRiboMethSeq5"))
-
-#' @rdname ModRiboMethSeq
-#' @export
-ModSetRiboMethSeq5 <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
-                               ...){
-  RNAmodR:::ModifierSet("ModRiboMethSeq5", x, annotation = annotation,
+  RNAmodR::ModifierSet("ModRiboMethSeq", x, annotation = annotation,
                         sequences = sequences, seqinfo = seqinfo, ...)
 }
