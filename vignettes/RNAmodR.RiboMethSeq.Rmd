@@ -139,7 +139,7 @@ By default only the RiboMethSeq score and the ScoreMean are shown.
 To access the performance of the method in combination with samples used, use
 the `plotROC` function.
 
-```{r plot4, fig.cap="TPR vs. FPR plot.", fig.asp=1}
+```{r plot4, fig.cap="TPR versus FPR plot.", fig.asp=1}
 plotROC(msrms,coord)
 ```
 
