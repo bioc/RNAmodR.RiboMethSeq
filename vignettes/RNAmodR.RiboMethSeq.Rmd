@@ -61,7 +61,7 @@ since the size of the raw data is limited. For annotation data either a gff file
 or a `TxDb` object and for sequence data a fasta file or a `BSgenome` object can
 be used. The data is provided as bam files.
 
-```{r, include=FALSE}
+```{r, message=FALSE, results='hide'}
 annotation <- GFF3File(RNAmodR.Data.example.RMS.gff3())
 sequences <- RNAmodR.Data.example.RMS.fasta()
 files <- list("Sample1" = c(treated = RNAmodR.Data.example.RMS.1()),
@@ -132,7 +132,13 @@ singleCoord <- coord[[1]][1,]
 plotDataByCoord(msrms, singleCoord)
 ```
 
-By default only the RiboMethSeq score and the ScoreMean are shown.
+By default only the RiboMethSeq score and the ScoreMean are shown. The raw 
+sequence data can be inspected as well
+
+```{r, plot3, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA. Sequence data is show by setting `showSequenceData = TRUE`", fig.asp=1}
+singleCoord <- coord[[1]][1,]
+plotDataByCoord(msrms, singleCoord, showSequenceData = TRUE)
+```
 
 # Performance
 
