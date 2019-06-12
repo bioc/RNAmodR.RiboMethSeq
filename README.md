@@ -9,7 +9,10 @@ specific analysis of RiboMethSeq data. Have a look at the vignette from the
 
 # Installation
 
-The current version of the RNAmodR.Data package is available from GitHub.
+The current version of the RNAmodR.RiboMethSeq package is available from GitHub
+or the Bioconductor devel version.
+
+## Github
 
 ```
 remotes::install_github("FelixErnst/RNAmodR.Data")
@@ -19,7 +22,17 @@ remotes::install_github("FelixErnst/RNAmodR.RiboMethSeq")
 library(RNAmodR.RiboMethSeq)
 ```
 
-A submission to Bioconductor is planned.
+## Bioconductor
+
+```
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+BiocManager::install("RNAmodR.RiboMethSeq")
+library(RNAmodR.RiboMethSeq)
+```
 
 # Literature
 
