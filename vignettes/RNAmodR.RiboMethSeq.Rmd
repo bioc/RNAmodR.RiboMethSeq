@@ -135,7 +135,7 @@ plotDataByCoord(msrms, singleCoord)
 By default only the RiboMethSeq score and the ScoreMean are shown. The raw 
 sequence data can be inspected as well
 
-```{r, plot3, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA. Sequence data is show by setting `showSequenceData = TRUE`", fig.asp=1}
+```{r, plot3, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA. Sequence data is shown by setting `showSequenceData = TRUE`.", fig.asp=1}
 singleCoord <- coord[[1]][1,]
 plotDataByCoord(msrms, singleCoord, showSequenceData = TRUE)
 ```
