@@ -1,7 +1,7 @@
 Package: RNAmodR.RiboMethSeq
 Type: Package
 Title: Detection of 2'-O methylations by RiboMethSeq
-Version: 0.99.15
+Version: 0.99.16
 Date: 2019-06-11
 Authors@R: c(person("Felix G.M.", 
                     "Ernst", 
@@ -12,7 +12,7 @@ Authors@R: c(person("Felix G.M.",
                     "Lafontaine", 
                     email = "denis.lafontaine@ulb.ac.be", 
                     role = c("ctb", "fnd")))
-Description: RNAmodR.AlkAnilineSeq implements the detection of 2'-O methylations
+Description: RNAmodR.RiboMethSeq implements the detection of 2'-O methylations
     on RNA from experimental data generated with the RiboMethSeq protocol. 
     The package builds on the core functionality of the RNAmodR package to
     detect specific patterns of the modifications in high throughput sequencing
