@@ -132,7 +132,7 @@ NULL
 #' @rdname ModRiboMethSeq
 #' @export
 setClass("ModRiboMethSeq",
-         contains = c("Modifier"),
+         contains = c("RNAModifier"),
          prototype = list(mod = c("Am","Cm","Gm","Um"),
                           score = "scoreRMS",
                           dataType = "ProtectedEndSequenceData"))
