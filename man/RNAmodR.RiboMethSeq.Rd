@@ -3,7 +3,6 @@
 \docType{package}
 \name{RNAmodR.RiboMethSeq}
 \alias{RNAmodR.RiboMethSeq}
-\alias{RNAmodR.RiboMethSeq-package}
 \title{RNAmodR.RiboMethSeq}
 \description{
 `RNAmodR.RiboMethSeq` implements the detection of 2'-O methylations from 

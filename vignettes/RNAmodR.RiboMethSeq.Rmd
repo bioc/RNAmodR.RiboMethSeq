@@ -98,7 +98,7 @@ matches the output of `ranges()` on a `SequenceData`, `Modifier` oder
 table <- read.csv2(RNAmodR.Data.snoRNAdb(), stringsAsFactors = FALSE)
 table <- table[table$hgnc_id == "53533",] # Subset to RNA5.8S
 # keep only the current coordinates
-table <- table[,1:7]
+table <- table[,1L:7L]
 snoRNAdb <- GRanges(seqnames = "chr1",
               ranges = IRanges(start = table$position,
                                width = 1),
@@ -121,14 +121,14 @@ alias <- data.frame(tx_id = "1", name = "5.8S rRNA", stringsAsFactors = FALSE)
 ```
 
 ```{r plot1, fig.cap="Heatmap showing RiboMethSeq scores for 2'-O methylated positions on the 5.8S rRNA."}
-plotCompareByCoord(msrms[c(2,1)], coord, alias = alias)
+plotCompareByCoord(msrms[c(2L,1L)], coord, alias = alias)
 ```
 
 Results can also be compared on a sequence level, by selecting specific 
 coordinates to compare.
 
 ```{r, plot2, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA.", fig.asp=1}
-singleCoord <- coord[[1]][1,]
+singleCoord <- coord[[1L]][1L,]
 plotDataByCoord(msrms, singleCoord)
 ```
 
@@ -136,7 +136,7 @@ By default only the RiboMethSeq score and the ScoreMean are shown. The raw
 sequence data can be inspected as well
 
 ```{r, plot3, fig.cap="RiboMethSeq scores around Um(14) on 5.8S rRNA. Sequence data is shown by setting `showSequenceData = TRUE`.", fig.asp=1}
-singleCoord <- coord[[1]][1,]
+singleCoord <- coord[[1L]][1L,]
 plotDataByCoord(msrms, singleCoord, showSequenceData = TRUE)
 ```
 

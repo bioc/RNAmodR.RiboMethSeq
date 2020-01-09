@@ -11,8 +11,7 @@
 \usage{
 ModRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA, ...)
 
-ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA,
-  ...)
+ModSetRiboMethSeq(x, annotation = NA, sequences = NA, seqinfo = NA, ...)
 }
 \arguments{
 \item{x}{the input which can be of the different types depending on whether

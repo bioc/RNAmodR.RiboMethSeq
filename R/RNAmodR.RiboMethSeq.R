@@ -28,7 +28,8 @@ requireNamespace("RNAmodR")
 #' @description 
 #' This contains an example ModifierSet object of type ModSetRiboMethSeq
 #' @docType data
-#' @usage msrms
+#' 
 #' @format a \code{ModSetRiboMethSeq} instance
 #' @keywords datasets
+#' @usage data(msrms)
 "msrms"
