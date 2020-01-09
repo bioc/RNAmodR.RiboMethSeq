@@ -7,7 +7,7 @@
 \title{Example data in the RNAmodR.RiboMethSeq package}
 \format{a \code{ModSetRiboMethSeq} instance}
 \usage{
-msrms
+data(msrms)
 }
 \description{
 This contains an example ModifierSet object of type ModSetRiboMethSeq
