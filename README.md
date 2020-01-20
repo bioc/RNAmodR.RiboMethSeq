@@ -1,4 +1,4 @@
-# RNAmodR.RiboMethSeq
+# RNAmodR.RiboMethSeq [![Build Status](https://travis-ci.com/FelixErnst/RNAmodR.RiboMethSeq.svg?branch=master)](https://travis-ci.com/FelixErnst/RNAmodR.RiboMethSeq) [![codecov](https://codecov.io/gh/FelixErnst/RNAmodR.RiboMethSeq/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/RNAmodR.RiboMethSeq)
 
 `RNAmodR.RiboMethSeq` uses classes and workflows from `RNAmodR` to detect 2'-O
 methylations from RiboMethSeq data.
