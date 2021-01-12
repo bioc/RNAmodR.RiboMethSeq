@@ -5,7 +5,9 @@
 \alias{RNAmodR.RiboMethSeq-datasets}
 \alias{msrms}
 \title{Example data in the RNAmodR.RiboMethSeq package}
-\format{a \code{ModSetRiboMethSeq} instance}
+\format{
+a \code{ModSetRiboMethSeq} instance
+}
 \usage{
 data(msrms)
 }

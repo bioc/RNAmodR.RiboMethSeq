@@ -289,13 +289,15 @@ NULL
 #' @rdname ModRiboMethSeq-functions
 #' @export
 setReplaceMethod(f = "settings", 
-                 signature = signature(x = "ModRiboMethSeq"),
-                 definition = function(x, value){
-                   x <- callNextMethod()
-                   value <- .norm_rms_args(value)
-                   x@settings[names(value)] <- unname(value)
-                   x
-                 })
+    signature = signature(x = "ModRiboMethSeq"),
+    definition = function(x, value){
+        x <- callNextMethod()
+        names <- names(value)
+        value <- .norm_rms_args(value)
+        x <- RNAmodR:::.add_settings_value(x, value, names)
+        x
+    }
+)
 
 
 # functions --------------------------------------------------------------------
