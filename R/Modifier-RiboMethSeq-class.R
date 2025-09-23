@@ -56,41 +56,41 @@ NULL
 #' @param sequences sequences matching the target sequences the reads were 
 #' mapped onto. This must match the information contained in the BAM files. This
 #' is parameter is only required if \code{x} if not a \code{Modifier} object.
-#' @param seqinfo An optional \code{\link[GenomeInfoDb:Seqinfo-class]{Seqinfo}} 
+#' @param seqinfo An optional \code{\link[Seqinfo:Seqinfo-class]{Seqinfo}} 
 #' argument or character vector, which can be coerced to one, to subset the 
 #' sequences to be analyzed on a per chromosome basis.
 #' @param ... Optional arguments overwriting default values, which are
 #' \itemize{
-#' \item{weights:} {The weights used for calculating the scores B and RMS 
-#' (default: \code{weights = c(0.9,1,0,1,0.9)}).}
-#' \item{flankingRegion:} {The size of the flanking region used for calculation 
-#' of score A as an integer value (default: \code{flankingRegion = 6L}).}
-#' \item{minSignal:} {The minimal signal at the position as integer value 
+#' \item weights: The weights used for calculating the scores B and RMS 
+#' (default: \code{weights = c(0.9,1,0,1,0.9)}).
+#' \item flankingRegion: The size of the flanking region used for calculation 
+#' of score A as an integer value (default: \code{flankingRegion = 6L}).
+#' \item minSignal: The minimal signal at the position as integer value 
 #' (default: \code{minSignal = 10L}). If the reaction is very specific a lower
-#' value and even 0L may need to be used.}
-#' \item{minScoreA:} {minimum for score A to identify 2'-O methylated positions 
-#' de novo (default: \code{minScoreA = 0.6}).}
-#' \item{minScoreB:} {minimum for score B to identify 2'-O methylated positions 
-#' de novo (default: \code{minScoreB = 3.0}).}
-#' \item{minScoreRMS:} {minimum for score RMS to identify 2'-O methylated 
-#' positions de novo (default: \code{minScoreRMS = 0.75}).}
-#' \item{minScoreMean:} {minimum for ScoreMean to identify 2'-O methylated 
-#' positions de novo (default: \code{minScoreMean = 0.75}).}
-#' \item{flankingRegionMean:} {The size of the flanking region used for 
+#' value and even 0L may need to be used.
+#' \item minScoreA: minimum for score A to identify 2'-O methylated positions 
+#' de novo (default: \code{minScoreA = 0.6}).
+#' \item minScoreB: minimum for score B to identify 2'-O methylated positions 
+#' de novo (default: \code{minScoreB = 3.0}).
+#' \item minScoreRMS: minimum for score RMS to identify 2'-O methylated 
+#' positions de novo (default: \code{minScoreRMS = 0.75}).
+#' \item minScoreMean: minimum for ScoreMean to identify 2'-O methylated 
+#' positions de novo (default: \code{minScoreMean = 0.75}).
+#' \item flankingRegionMean: The size of the flanking region used for 
 #' calculation of ScoreMean as an integer value (default: 
-#' \code{flankingRegionMean = 2L}).}
-#' \item{scoreOperator:} {how the minimal score should be used as logical 
+#' \code{flankingRegionMean = 2L}).
+#' \item scoreOperator: how the minimal score should be used as logical 
 #' operator. "&" requires all minimal values to be exceeded, whereas "|" detects
 #' positions, if at least one minimal values is exceeded (default: 
-#' \code{scoreOperator = "&"}).}
-#' \item{maxLength:} {The default read length. Reads with this length or longer
-#' are discarded, since they represent non-fragemented reads. This might need to
-#' be adjusted for individual samples dending on the experimental conditions.
+#' \code{scoreOperator = "&"}).
+#' \item maxLength: The default read length. Reads with this length or longer
+#' are discarded, since they represent non-fragmented reads. This might need to
+#' be adjusted for individual samples depending on the experimental conditions.
 #' This is argument is passed on to 
 #' \code{\link[RNAmodR:ProtectedEndSequenceData-class]{ProtectedEndSequenceData}}
-#' (default: \code{maxLength = 50L}).}
-#' \item{other arguments} {which are passed on to 
-#' \code{\link[RNAmodR:ProtectedEndSequenceData-class]{ProtectedEndSequenceData}}.}
+#' (default: \code{maxLength = 50L}).
+#' \item other arguments which are passed on to 
+#' \code{\link[RNAmodR:ProtectedEndSequenceData-class]{ProtectedEndSequenceData}}.
 #' }
 #' To disable minimal values for modification calling, set them to \code{0}.
 #' It is not advised to set them all to \code{0}.
@@ -170,23 +170,21 @@ ModRiboMethSeq <- function(x, annotation = NA, sequences = NA, seqinfo = NA,
 #' \code{ModRiboMethSeq} specific arguments for 
 #' \code{\link[RNAmodR:plotData]{plotData}}:
 #' \itemize{
-#' \item{\code{colour} - }{a named character vector of \code{length = 4} 
+#' \item \code{colour} - a named character vector of \code{length = 4} 
 #' for the colours of the individual histograms. The names are expected to be 
-#' \code{c("ends","scoreA","scoreB","scoreRMS","scoreMean")}}
+#' \code{c("ends","scoreA","scoreB","scoreRMS","scoreMean")}.
 #' }
 #' 
 #' @return 
 #' \itemize{
-#' \item{\code{settings}} {See 
-#' \code{\link[RNAmodR:Modifier-functions]{settings}}.}
-#' \item{\code{aggregate}} {See \code{\link[RNAmodR:aggregate]{aggregate}}.}
-#' \item{\code{modify}} {See \code{\link[RNAmodR:modify]{modify}}.}
-#' \item{\code{getDataTrack}} {a list of 
-#' \code{\link[Gviz:DataTrack-class]{DataTrack}} object.}
-#' \item{\code{plotData}} {See 
-#' \code{\link[RNAmodR:plotData]{plotDataByCoord}}.}
-#' \item{\code{plotDataByCoord}} {See 
-#' \code{\link[RNAmodR:plotData]{plotDataByCoord}}.}
+#' \item \code{settings}: See \code{\link[RNAmodR:Modifier-functions]{settings}}.
+#' \item \code{aggregate}: See \code{\link[RNAmodR:aggregate]{aggregate}}.
+#' \item \code{modify}: See \code{\link[RNAmodR:modify]{modify}}.
+#' \item \code{getDataTrack}: a list of 
+#' \code{\link[Gviz:DataTrack-class]{DataTrack}} object.
+#' \item \code{plotData}: See \code{\link[RNAmodR:plotData]{plotDataByCoord}}.
+#' \item \code{plotDataByCoord}: See 
+#' \code{\link[RNAmodR:plotData]{plotDataByCoord}}.
 #' }
 #' 
 #' @importMethodsFrom RNAmodR modify aggregate settings plotData 

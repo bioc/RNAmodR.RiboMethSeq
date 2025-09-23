@@ -72,16 +72,14 @@ details see also the man pages for the functions mentioned below.}
 }
 \value{
 \itemize{
-\item{\code{settings}} {See 
-\code{\link[RNAmodR:Modifier-functions]{settings}}.}
-\item{\code{aggregate}} {See \code{\link[RNAmodR:aggregate]{aggregate}}.}
-\item{\code{modify}} {See \code{\link[RNAmodR:modify]{modify}}.}
-\item{\code{getDataTrack}} {a list of 
-\code{\link[Gviz:DataTrack-class]{DataTrack}} object.}
-\item{\code{plotData}} {See 
-\code{\link[RNAmodR:plotData]{plotDataByCoord}}.}
-\item{\code{plotDataByCoord}} {See 
-\code{\link[RNAmodR:plotData]{plotDataByCoord}}.}
+\item \code{settings}: See \code{\link[RNAmodR:Modifier-functions]{settings}}.
+\item \code{aggregate}: See \code{\link[RNAmodR:aggregate]{aggregate}}.
+\item \code{modify}: See \code{\link[RNAmodR:modify]{modify}}.
+\item \code{getDataTrack}: a list of 
+\code{\link[Gviz:DataTrack-class]{DataTrack}} object.
+\item \code{plotData}: See \code{\link[RNAmodR:plotData]{plotDataByCoord}}.
+\item \code{plotDataByCoord}: See 
+\code{\link[RNAmodR:plotData]{plotDataByCoord}}.
 }
 }
 \description{
@@ -93,9 +91,9 @@ inherited by the \code{ModRiboMethSeq} and \code{ModSetRiboMethSeq} classes.
 \code{ModRiboMethSeq} specific arguments for 
 \code{\link[RNAmodR:plotData]{plotData}}:
 \itemize{
-\item{\code{colour} - }{a named character vector of \code{length = 4} 
+\item \code{colour} - a named character vector of \code{length = 4} 
 for the colours of the individual histograms. The names are expected to be 
-\code{c("ends","scoreA","scoreB","scoreRMS","scoreMean")}}
+\code{c("ends","scoreA","scoreB","scoreRMS","scoreMean")}.
 }
 }
 \examples{
